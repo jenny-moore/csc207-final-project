@@ -81,7 +81,6 @@ public class Test {
         OkHttpClient client = new OkHttpClient();
 
         String url = "https://api.spotify.com/v1/artists/" + artistId + "/top-tracks?market=CA";
-        System.out.println(url);
         Request request = new Request.Builder()
                 .url(url)
                 .get()
