@@ -13,3 +13,6 @@ We are building a web-based application inspired by the likes of 'Wordle' but fo
 
 
 ### Link to API Documentation: https://developer.spotify.com/documentation/web-api
+
+## How to fix Maven issues.
+- Right click on pom.xml and create as maven project or hover over maven and reload project
