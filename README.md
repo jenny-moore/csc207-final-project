@@ -13,9 +13,3 @@ We are building a web-based application inspired by the likes of 'Wordle' but fo
 
 
 ### Link to API Documentation: https://developer.spotify.com/documentation/web-api
-
-## Sample usage of the API
-![Screenshot 2023-09-29 173951](https://github.com/jenny-moore/exploring_apis/assets/144371129/b9b3d108-0dd7-4e22-8296-dcfc1df604a0)
-
-## Sample output of sample calls made to the API
-<img width="603" alt="Screenshot 2023-09-29 at 4 48 29 PM" src="https://github.com/jenny-moore/exploring_apis/assets/144376825/a1cb6bb3-6c15-472b-86b5-d38adf79fc35">
