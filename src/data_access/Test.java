@@ -107,7 +107,7 @@ public class Test {
 
     public static void main(String[] args) {
         String token = getApiToken();
-        JSONObject result = searchForArtist(token, "Drake");
+        JSONObject result = searchForArtist(token, "周杰伦");
         Object artist_id = result.get("id");
         JSONArray songs = getSongsByArtist(token, artist_id.toString());
         for (int i = 0; i < songs.length(); i++){
