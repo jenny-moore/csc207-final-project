@@ -71,16 +71,13 @@ public class SpotifyPlaylistDataAccessObject implements ChooseDataAccessInterfac
             if (response.isSuccessful()) {
                 String responseBody = response.body().string();
                 JSONObject jsonResult = new JSONObject(responseBody);
-                // Get the "tracks" object
                 JSONObject tracksObject = jsonResult.getJSONObject("tracks");
 
-                // Get the "items" array from the "tracks" object
                 JSONArray itemsArray = tracksObject.getJSONArray("items");
                 for (int i = 0; i < itemsArray.length(); i++) {
                     StringBuilder artistName;
                     JSONObject item = itemsArray.getJSONObject(i);
 
-                    // Access track details
                     String trackName = item.getJSONObject("track").getString("name");
 
                     String spotifyId = item.getJSONObject("track").getString("id");
@@ -90,7 +87,7 @@ public class SpotifyPlaylistDataAccessObject implements ChooseDataAccessInterfac
 
                     // Access artist details
                     JSONArray artistsArray = item.getJSONObject("track").getJSONArray("artists");
-                     artistName = new StringBuilder(artistsArray.getJSONObject(0).getString("name"));
+                    artistName = new StringBuilder(artistsArray.getJSONObject(0).getString("name"));
                     for (int j = 1; j < artistsArray.length(); j++) {
                         String newName = artistsArray.getJSONObject(j).getString("name");
                         artistName.append(", ").append(newName);
