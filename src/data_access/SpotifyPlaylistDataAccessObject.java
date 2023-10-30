@@ -82,7 +82,7 @@ public class SpotifyPlaylistDataAccessObject implements ChooseDataAccessInterfac
 
                     String spotifyId = item.getJSONObject("track").getString("id");
 
-                    JSONObject externalUrls = item.getJSONObject("track").getJSONObject("external_urls");
+                    JSONObject externalUrls = item.getJSONObject("track").getJSONObject("preview_url");
                     String audioLink = externalUrls.getString("spotify");
 
                     // Access artist details
