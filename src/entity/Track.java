@@ -14,7 +14,7 @@ public class Track {
         this.audioLink = audioLink;
     }
 
-    // Getter for artist
+    // Getter for artista
     public String getArtist() {
         return artist;
     }
