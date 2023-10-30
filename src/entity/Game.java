@@ -7,13 +7,26 @@ public class Game {
     private HashMap<String, Track[]> songCatalog = new HashMap();
 
     public Track generateTrack(String genre){
-        return null;
+        Track[] playlist = songCatalog.get(genre);
+        Random rand = new Random();
+        return playlist[rand.nextInt(playlist.length)];
     }
-    public Track[] genrePlaylist(String genre){
-        return songCatalog.get(genre);
+    public boolean genreInGame(String genre){
+        for (String key : songCatalog.keySet() ) {
+            if (key.equals(genre)) {
+                return true;
+            }
+        }
+        return false;
     }
     public String[] getGenres(){
-        return null;
+        String[] genres = new String[songCatalog.size()];
+        int i = 0;
+        for (String key : songCatalog.keySet() ) {
+            genres[i] = key;
+            i ++;
+        }
+        return genres;
     }
     public void addPlaylist(String genre, Track[] playlist){
         songCatalog.put(genre, playlist);
