@@ -17,6 +17,6 @@ public class ChooseOutputData {
         trackName = track.getTitle();
         trackArtist = track.getArtist();
         audioLink = track.getAudioLink();
-        spotifyLink = "https://open.spotify.com/track/" + track.getSpotifyID().toString();
+        spotifyLink = "https://open.spotify.com/track/" + track.getSpotifyID();
     }
 }
