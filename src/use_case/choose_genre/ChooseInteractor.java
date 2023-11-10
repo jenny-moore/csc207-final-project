@@ -11,12 +11,12 @@ public class ChooseInteractor implements ChooseInputBoundary{
         this.genreDataAccessObject = genreDataAccessObject;
     }
     public void execute(ChooseInputData chooseGenreInputData){
-        ChooseOutputData outputData = new ChooseOutputData(chooseGenreInputData.getGenre());
-        String genre = chooseGenreInputData.getGenre();
-        if (!game.genreInGame(genre)){
-            game.addPlaylist(genre, genreDataAccessObject.chooseGenre(genre));
-        }
-        outputData.addPlaylist(game.generateTrack(genre));
-        genrePresenter.prepareSuccessView(outputData);
+//        ChooseOutputData outputData = new ChooseOutputData(chooseGenreInputData.getGenre());
+//        String genre = chooseGenreInputData.getGenre();
+//        if (!game.genreInGame(genre)){
+//            game.addPlaylist(genre, genreDataAccessObject.chooseGenre(genre));
+//        }
+//        outputData.addPlaylist(game.generateTrack(genre));
+//        genrePresenter.prepareSuccessView(outputData);
     }
 }
