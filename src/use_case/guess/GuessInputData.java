@@ -1,10 +1,10 @@
 package use_case.guess;
 
 public class GuessInputData {
-    private String currentSong;
-    private String guess;
-    private int guesses;
-    private int maxGuesses;
+    final private String currentSong;
+    final private String guess;
+    final private int guesses;
+    final private int maxGuesses;
     public GuessInputData(String currentSong, String guess, int guesses, int maxGuesses){
         this.currentSong = currentSong;
         this.guess = guess;
