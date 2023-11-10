@@ -10,15 +10,13 @@ public class PlayerDataAccess implements GuessDataAccessInterface {
     public PlayerDataAccess() {
         ArrayList<String> data = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader("PlayerData.csv"))) {
-            int i = 0;
-            data.set(i, reader.readLine());
+            data.add(reader.readLine());
 
             String row;
             while ((row = reader.readLine()) != null) {
-                i ++;
-                data.set(i, row);
+                data.add(row);
             }
-            data.set(i+1, "");
+            data.add("");
             this.data = data.toArray(new String[data.size()]);
         } catch (IOException e) {
             throw new RuntimeException(e);
