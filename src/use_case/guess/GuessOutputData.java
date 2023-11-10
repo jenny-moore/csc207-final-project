@@ -11,4 +11,10 @@ public class GuessOutputData {
     public void setSong(String song) {
         this.currentSong = song;
     }
+    public String getSong(){
+        return currentSong;
+    }
+    public int getGuesses(){
+        return guesses;
+    }
 }
