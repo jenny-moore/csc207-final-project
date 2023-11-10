@@ -14,7 +14,7 @@ public class LeaderboardInteractor implements LeaderboardInputBoundary{
 
 
     @Override
-    public void execute(LeaderboardInputData leaderboardInputData) {
+    public void execute() {
         LeaderboardOutputData leaderboardOutputData = new LeaderboardOutputData(leaderboardDataAccessObject.getData());
         leaderboardPresenter.prepareSuccessView(leaderboardOutputData);
     }
