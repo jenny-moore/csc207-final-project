@@ -3,11 +3,11 @@ package use_case.leaderboard;
 import java.util.ArrayList;
 
 public class LeaderboardOutputData {
-    private final ArrayList<Integer> data;
+    private final int[] data;
 
-    public LeaderboardOutputData(ArrayList<Integer> data) {
+    public LeaderboardOutputData(int[] data) {
         this.data = data;
     }
 
-    public ArrayList<Integer> getData() {return data;}
+    public int[] getData() {return data;}
 }

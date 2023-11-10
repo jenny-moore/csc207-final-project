@@ -3,5 +3,5 @@ package use_case.leaderboard;
 import java.util.ArrayList;
 
 public interface LeaderboardDataAccessInterface {
-    ArrayList<Integer> getData();
+    int[] getData();
 }
