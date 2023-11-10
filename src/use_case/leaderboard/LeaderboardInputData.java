@@ -1,4 +1,5 @@
 package use_case.leaderboard;
 
-public class LeaderboardInputData {
+public class LeaderboardInputData{
+
 }
