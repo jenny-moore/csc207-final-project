@@ -1,4 +1,6 @@
 package use_case.guess;
 
-public class GuessOutputBoundary {
+public interface GuessOutputBoundary {
+    void endGame(GuessOutputData outputData);
+    void continueGame(GuessOutputData outputData);
 }
