@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class PlayerDataAccess implements GuessDataAccessInterface {
     final private String[] data;
     public PlayerDataAccess() {
-        ArrayList<String> data = new ArrayList<String>();
+        ArrayList<String> data = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader("PlayerData.csv"))) {
             int i = 0;
             data.set(i, reader.readLine());
@@ -19,11 +19,10 @@ public class PlayerDataAccess implements GuessDataAccessInterface {
                 data.set(i, row);
             }
             data.set(i+1, "");
-
+            this.data = data.toArray(new String[data.size()]);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        this.data = data.toArray(new String[data.size()]);
     }
     public void saveGame(int guesses){
         this.data[data.length - 1] = String.valueOf(guesses);
