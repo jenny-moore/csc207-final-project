@@ -10,9 +10,9 @@ public class SearchBarController {
         this.searchBarUseCaseInteractor = searchBarUseCaseInteractor;
     }
 
-    public void onSearchRequest(String query) {
+    public void execute(String query) {
         SearchBarInputData inputData = new SearchBarInputData(query);
-        searchBarUseCaseInteractor.handleSearchRequest(inputData);
+        searchBarUseCaseInteractor.execute(inputData);
     }
 
 }

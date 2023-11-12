@@ -13,7 +13,7 @@ public class SearchBarPresenter implements SearchBarOutputBoundary {
     }
 
     @Override
-    public void presentSearchResults(SearchBarOutputData data) {
+    public void presentSuccessView(SearchBarOutputData data) {
         searchBarViewModel.displaySearchResults(data.getTracks());
     }
 
