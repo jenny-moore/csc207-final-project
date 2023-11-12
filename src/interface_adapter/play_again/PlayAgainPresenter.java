@@ -6,7 +6,7 @@ import use_case.play_again.PlayAgainOutputBoundary;
 
 public class PlayAgainPresenter implements PlayAgainOutputBoundary {
     private final ChooseViewModel chooseViewModel;
-    private ViewManagerModel viewManagerModel;
+    private final ViewManagerModel viewManagerModel;
 
 
     public PlayAgainPresenter(ViewManagerModel viewManagerModel, ChooseViewModel chooseViewModel) {

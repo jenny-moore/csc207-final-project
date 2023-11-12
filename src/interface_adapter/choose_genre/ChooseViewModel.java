@@ -7,11 +7,11 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 public class ChooseViewModel extends ViewModel {
-    private ChooseState state = new ChooseState();
-    private PropertyChangeSupport support = new PropertyChangeSupport(this);
+    private final ChooseState state = new ChooseState();
+    private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 
 
-    public ChooseViewModel(String viewName) {
+    public ChooseViewModel() {
         super("choose genre");
     }
 
