@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 
 public class PlayerData {
-    private ArrayList<Integer> gamesPlayed;
-    private int points;
+    private ArrayList<Integer> gamesPlayed = new ArrayList<>();
+    private int points = 0;
 
     // Getters
     public int getScore(){ return this.points;}
