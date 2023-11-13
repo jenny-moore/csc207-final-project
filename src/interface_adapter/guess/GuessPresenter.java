@@ -12,7 +12,7 @@ public class GuessPresenter implements GuessOutputBoundary {
     @Override
     public void endGame(GuessOutputData outputData) {
         GuessState guessState = new GuessState(guessViewModel.getMaxGuesses());
-        guessState.setGuesses(0);
+        guessState.setGuesses(1);
         guessViewModel.setState(guessState);
         guessViewModel.firePropertyChanged();
         // Change the view
