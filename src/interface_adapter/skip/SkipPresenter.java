@@ -13,7 +13,7 @@ public class SkipPresenter implements SkipOutputBoundary {
     @Override
     public void endGame(SkipOutputData outputData) {
         SkipState SkipState = new SkipState(skipViewModel.getMaxGuesses());
-        SkipState.setGuesses(0);
+        SkipState.setGuesses(1);
         skipViewModel.setState(SkipState);
         skipViewModel.firePropertyChanged();
         // Change the view

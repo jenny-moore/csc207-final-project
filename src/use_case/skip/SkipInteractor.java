@@ -14,7 +14,7 @@ public class SkipInteractor implements SkipInputBoundary{
         SkipOutputData outputData = new SkipOutputData();
         if (skipInputData.getGuesses() >= skipInputData.getMaxGuesses()){
             playerDataAccessObject.saveGame(0);
-            outputData.setGuesses(0);
+            outputData.setGuesses(1);
             skipPresenter.endGame(outputData);
         }
         else{
