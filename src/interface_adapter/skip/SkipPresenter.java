@@ -1,14 +1,21 @@
 package interface_adapter.skip;
 
+import interface_adapter.ViewManagerModel;
+import interface_adapter.guess.GuessViewModel;
+import interface_adapter.leaderboard.LeaderboardViewModel;
 import use_case.skip.SkipOutputBoundary;
 import use_case.skip.SkipOutputData;
 
 public class SkipPresenter implements SkipOutputBoundary {
 
     private final SkipViewModel skipViewModel;
+    private final LeaderboardViewModel leaderbordViewModel;
+    private final ViewManagerModel viewManagerModel;
 
-    public SkipPresenter(SkipViewModel skipViewModel) {
+    public SkipPresenter(ViewManagerModel viewManagerModel, SkipViewModel skipViewModel, LeaderboardViewModel leaderboardViewModel) {
         this.skipViewModel = skipViewModel;
+        this.viewManagerModel = viewManagerModel;
+        this.leaderbordViewModel = leaderboardViewModel;
     }
     @Override
     public void endGame(SkipOutputData outputData) {
@@ -16,15 +23,16 @@ public class SkipPresenter implements SkipOutputBoundary {
         SkipState.setGuesses(1);
         skipViewModel.setState(SkipState);
         skipViewModel.firePropertyChanged();
-        // Change the view
-        // Must create a view manager model
+
+        viewManagerModel.setActiveView(leaderbordViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
     }
 
     @Override
     public void continueGame(SkipOutputData outputData) {
         SkipState SkipState = skipViewModel.getState();
-        int Skipes = SkipState.getGuesses();
-        SkipState.setGuesses(Skipes + 1);
+        int guesses = SkipState.getGuesses();
+        SkipState.setGuesses(guesses + 1);
         skipViewModel.setState(SkipState);
         skipViewModel.firePropertyChanged();
     }
