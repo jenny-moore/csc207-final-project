@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 // Hold the data that is displayed in the UI
+// TODO: Create a clear search button
 public class SearchBarViewModel extends ViewModel {
 
     private SearchBarState state = new SearchBarState();
@@ -20,6 +21,10 @@ public class SearchBarViewModel extends ViewModel {
 
     public SearchBarState getState() {
         return state;
+    }
+
+    public void setState(SearchBarState state) {
+        this.state = state;
     }
 
     @Override

@@ -7,6 +7,9 @@ import java.util.List;
 public class SearchBarView {
     public void displaySearchResults(List<Track> tracks) {
         // Code to update the UI with the search results
+
+        
+
     }
 
 }
