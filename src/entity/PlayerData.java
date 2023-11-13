@@ -1,11 +1,9 @@
 package entity;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class PlayerData {
-    private ArrayList<Integer> gamesPlayed = new ArrayList<>();
+    private final ArrayList<Integer> gamesPlayed = new ArrayList<>();
     private int points = 0;
 
     // Getters
