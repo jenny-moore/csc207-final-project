@@ -19,7 +19,7 @@ public class GuessInteractor implements GuessInputBoundary {
         }
         else if (guessInputData.getGuesses() >= guessInputData.getMaxGuesses()){
             playerDataAccessObject.saveGame(0);
-            outputData.setGuesses(0);
+            outputData.setGuesses(1);
             guessPresenter.endGame(outputData);
         }
         else{
