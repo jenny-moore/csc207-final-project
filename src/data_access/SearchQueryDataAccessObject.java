@@ -89,6 +89,7 @@ public class SearchQueryDataAccessObject implements SearchBarDataAccessInterface
                     Track track = trackFactory.create(artist, title, spotifyID, audioLink);
                     tracks.add(track);
                 }
+                System.out.println(tracks);
                 return tracks;
             } else {
                 System.out.println("Failed to search tracks. Response code: " + response.code());
@@ -99,4 +100,10 @@ public class SearchQueryDataAccessObject implements SearchBarDataAccessInterface
             return new ArrayList<>();
         }
     }
+
+    public static void main(String[] args) {
+        SearchQueryDataAccessObject searchQueryDataAccessObject = new SearchQueryDataAccessObject();
+        searchQueryDataAccessObject.searchTracks("justin bieber");
+    }
+
 }
