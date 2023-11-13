@@ -1,16 +1,16 @@
-package interface_adapter.play;
+package interface_adapter.PlaySong;
 
+import entity.Track;
 import use_case.play.PlayInputBoundary;
 import use_case.play.PlayInputData;
-import use_case.play.PlayInteractor;
 
 public class PlayController {
     final PlayInputBoundary playInteractor;
     public PlayController(PlayInputBoundary playInteractor){
         this.playInteractor=playInteractor;
     }
-    public void execute(int start, int end, Track track,){
-        PlayInputData data = new PlayInputData(start, end, track);
+    public void execute(Track track, int tryNumber){
+        PlayInputData data = new PlayInputData(track, tryNumber);
         playInteractor.execute(data);
     }
 }

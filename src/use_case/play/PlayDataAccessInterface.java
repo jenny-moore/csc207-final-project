@@ -3,5 +3,5 @@ package use_case.play;
 import entity.Track;
 
 public interface PlayDataAccessInterface {
-    Track getTrack();
+    boolean play(Track track, int start, int end);
 }

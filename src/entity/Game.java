@@ -6,6 +6,8 @@ import java.util.Random;
 public class Game {
     private HashMap<String, Track[]> songCatalog = new HashMap();
 
+    public Game(){}
+
     public Track generateTrack(String genre){
         Track[] playlist = songCatalog.get(genre);
         Random rand = new Random();
