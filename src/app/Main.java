@@ -17,8 +17,9 @@ public class Main {
         PlayController playController = new PlayController(playInteractor);
 
         Game game = new Game();
-        dataAccess.chooseGenre("Pop", game);
-        Track tract = game.generateTrack("Pop");
+        dataAccess.chooseGenre("Mandopop", game);
+        Track tract = game.generateTrack("Mandopop");
+        System.out.println(tract.getTitle() + " by " + tract.getArtist());
 
         playController.execute(tract, 1);
 
