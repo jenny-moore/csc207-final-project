@@ -16,7 +16,7 @@ public class LeaderboardView extends JFrame {
     public LeaderboardView(int[] data){
         this.data = data;
         this.setTitle("Leaderboard");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         this.setSize(560,800);
         this.setLayout(new BorderLayout());
         this.setResizable(false);
@@ -145,7 +145,6 @@ public class LeaderboardView extends JFrame {
         if(height < 30){
             height = 30;
         }
-        System.out.println(height);
         midlabel.setPreferredSize(new Dimension(80, height));
         if(i==0){
             midlabel.setBackground(Color.red);
