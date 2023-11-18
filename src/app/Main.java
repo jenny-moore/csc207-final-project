@@ -15,12 +15,12 @@ import java.awt.*;
 
 public class Main {
     public static void main(String[] args) {
-        JFrame apep = new JFrame("Es");
-        apep.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        JFrame application = new JFrame("Es");
+        application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         CardLayout cardLayout = new CardLayout();
 
         JPanel views = new JPanel(cardLayout);
-        apep.add(views);
+        application.add(views);
 
         ViewManagerModel viewManagerModel = new ViewManagerModel();
 
@@ -36,7 +36,9 @@ public class Main {
         viewManagerModel.setActiveView((homeView.viewName));
         viewManagerModel.firePropertyChanged();
 
-        apep.setVisible(true);
+        application.setSize(500, 300);
+
+        application.setVisible(true);
     }
     }
 
