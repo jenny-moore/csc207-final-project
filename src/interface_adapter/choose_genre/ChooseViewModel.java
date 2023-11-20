@@ -10,7 +10,10 @@ public class ChooseViewModel extends ViewModel {
     private final ChooseState state = new ChooseState();
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 
-
+    public static final String TITLE_LABEL = "Choose a Genre";
+    public static final String GENRE_LABEL = "Genre dropdown:";
+    public static final String CHOOSE_BUTTON_LABEL = "Play";
+    public static final String[] GENRES = new String[]();
     public ChooseViewModel() {
         super("choose genre");
     }
