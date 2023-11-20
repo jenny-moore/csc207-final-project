@@ -12,7 +12,7 @@ public class ChooseViewModel extends ViewModel {
     public static final String TITLE_LABEL = "Choose a Genre";
     public static final String GENRE_LABEL = "Genre dropdown:";
     public static final String CHOOSE_BUTTON_LABEL = "Play";
-    public static final String[] GENRES = new String[]{};
+    public static final String[] GENRES = new String[]{"Pop", "Hip-Hop", "R&B", "Rock"};
     public ChooseViewModel() {
         super("choose genre");
     }
