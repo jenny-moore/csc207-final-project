@@ -35,33 +35,8 @@ public class ChooseView extends JPanel implements ActionListener, PropertyChange
         choose = new JButton(ChooseViewModel.CHOOSE_BUTTON_LABEL);
         buttons.add(choose);
 
-
-        choose.addActionListener(
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent evt) {
-                        if (evt.getSource().equals(choose)) {
-                            ChooseState currentState = chooseViewModel.getState();
-
-                            chooseController.execute(
-                                    currentState.getGenre()
-                            );
-                        }
-                    }
-                }
-        );
-
-        genres.addActionListener(
-                new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        JComboBox cb = (JComboBox)e.getSource();
-                        String genre = (String)cb.getSelectedItem();
-                        ChooseState state = chooseViewModel.getState();
-                        state.setGenre(genre);
-                        chooseViewModel.setState(state);
-                    }
-                }
-        );
+        choose.addActionListener(this);
+        genres.addActionListener(this);
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -72,7 +47,17 @@ public class ChooseView extends JPanel implements ActionListener, PropertyChange
 
     @Override
     public void actionPerformed(ActionEvent evt) {
-        JOptionPane.showConfirmDialog(this, "Cancel not implemented yet.");
+        if (evt.getSource().equals(choose)) {
+            ChooseState currentState = chooseViewModel.getState();
+
+            chooseController.execute(currentState.getGenre());
+        } else if (evt.getSource().equals(genres)){
+            JComboBox cb = (JComboBox)evt.getSource();
+            String genre = (String)cb.getSelectedItem();
+            ChooseState state = chooseViewModel.getState();
+            state.setGenre(genre);
+            chooseViewModel.setState(state);
+        }
     }
 
     @Override
