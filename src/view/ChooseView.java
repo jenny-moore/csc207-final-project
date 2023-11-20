@@ -5,7 +5,6 @@ import interface_adapter.choose_genre.ChooseController;
 
 import javax.swing.*;
 import java.awt.*;
-import javax.swing.plaf.basic.BasicButtonUI;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
