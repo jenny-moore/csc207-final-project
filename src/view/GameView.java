@@ -1,6 +1,8 @@
 package view;
 
 import entity.Track;
+import interface_adapter.search_bar.SearchBarController;
+import interface_adapter.search_bar.SearchBarState;
 import interface_adapter.search_bar.SearchBarViewModel;
 
 import javax.swing.*;
@@ -10,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -18,13 +21,15 @@ public class GameView extends JFrame {
     private JList<String> resultList;
     private JButton playButton, submitButton, skipButton;
     private JTextArea guessList; // display previous guesses
-    private SearchBarViewModel viewModel;
+    private SearchBarViewModel searchBarViewModel;
+    private SearchBarController searchBarController;
 
     public GameView() {
         this.setTitle("Game View");
         this.setSize(600, 800);
         setLayout(new BorderLayout());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setBackground(Color.BLACK); // not working btw
 
         searchTextField = new JTextField();
         this.add(searchTextField, BorderLayout.SOUTH);
@@ -55,6 +60,7 @@ public class GameView extends JFrame {
         private Timer timer = new Timer(300, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                System.out.println("im here");
                 onSearch();
             }
         }); // 300ms delay before triggering search
@@ -86,12 +92,15 @@ public class GameView extends JFrame {
     private void onSearch() {
         searchTextField.addActionListener(e -> {
             String query = searchTextField.getText();
-            viewModel.getState().setCurrentSearchQuery(query);
+            // set it as a state
+            // call search controller with the query
+            searchBarController.execute(query);
+
+            // searchBarViewModel.getState().setCurrentSearchQuery(query);
 
             // Trigger search in ViewModel
-            // Think something here is wrong...
-            java.util.List<Track> tracks = viewModel.getState().getTracks();
-            updateSearchResults(tracks);
+            java.util.List<Track> tracks = searchBarViewModel.getState().getTracks();
+            System.out.println(tracks.size());
         });
 
         resultList.addMouseListener(new MouseAdapter() {
@@ -111,14 +120,21 @@ public class GameView extends JFrame {
         resultList.setModel(model);
     }
 
-    // For Testing purposes
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            GameView app = new GameView();
-            app.setVisible(true);
-        });
+
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getNewValue() instanceof SearchBarState) {
+            SearchBarState state = (SearchBarState) evt.getNewValue();
+            java.util.List<Track> tracks = state.getTracks(); // TODO: Check about length of list
+            updateSearchResults(tracks);
+        }
     }
 
-
+        // For Testing purposes
+        public static void main(String[] args) {
+            SwingUtilities.invokeLater(() -> {
+                GameView app = new GameView();
+                app.setVisible(true);
+            });
+        }
 
 }

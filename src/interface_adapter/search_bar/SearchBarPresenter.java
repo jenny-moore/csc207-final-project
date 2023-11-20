@@ -3,7 +3,6 @@ package interface_adapter.search_bar;
 import entity.Track;
 import use_case.search_bar.SearchBarOutputBoundary;
 import use_case.search_bar.SearchBarOutputData;
-import view.SearchBarView;
 
 import java.util.ArrayList;
 import java.util.List;
