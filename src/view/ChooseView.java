@@ -5,12 +5,13 @@ import interface_adapter.choose_genre.ChooseController;
 
 import javax.swing.*;
 import java.awt.*;
+import javax.swing.plaf.basic.BasicButtonUI;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class ChooseView extends JPanel implements ActionListener, PropertyChangeListener {
+public class ChooseView extends JFrame implements ActionListener, PropertyChangeListener {
     public final String viewName = "choose";
 
     private final ChooseViewModel chooseViewModel;
@@ -25,23 +26,36 @@ public class ChooseView extends JPanel implements ActionListener, PropertyChange
 
         chooseViewModel.addPropertyChangeListener(this);
 
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setSize(600,800);
+        this.setLayout(null);
+        this.setResizable(false);
+        this.getContentPane().setBackground(Color.BLACK);
 
         JLabel title = new JLabel(ChooseViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         genres = new JComboBox(ChooseViewModel.GENRES);
+        genres.setFont(new Font("Comic Sans", Font.BOLD, 15));
+        genres.setBackground(Color.GREEN);
+
+        choose = new JButton(ChooseViewModel.CHOOSE_BUTTON_LABEL);
+        choose.setBackground(Color.GREEN);
+        choose.setFont(new Font("Comic Sans", Font.BOLD, 15));
+        choose.setOpaque(true);
+        choose.setBorderPainted(false);
+        //choose.setBounds(100,100, 400, 200);
 
         JPanel buttons = new JPanel();
-        choose = new JButton(ChooseViewModel.CHOOSE_BUTTON_LABEL);
         buttons.add(choose);
+        buttons.add(title);
+        buttons.add(genres);
+        buttons.setVisible(true);
 
         choose.addActionListener(this);
         genres.addActionListener(this);
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
-        this.add(title);
-        this.add(genres);
         this.add(buttons);
     }
 
