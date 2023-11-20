@@ -1,48 +1,124 @@
 package view;
 
+import entity.Track;
 import interface_adapter.search_bar.SearchBarViewModel;
-import view.SearchBarView;
 
 import javax.swing.*;
+import javax.swing.text.Document;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 public class GameView extends JFrame {
-    private SearchBarView searchBarView;
-    private SearchBarViewModel searchBarViewModel;
-
+    private JTextField searchTextField;
+    private JList<String> resultList;
     private JButton playButton, submitButton, skipButton;
-
     private JTextArea guessList; // display previous guesses
+    private SearchBarViewModel viewModel;
 
     public GameView() {
         this.setTitle("Game View");
         this.setSize(600, 800);
+        setLayout(new BorderLayout());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setLayout(new BorderLayout());
-        this.setResizable(false);
 
-        searchBarView = new SearchBarView(searchBarViewModel);
-        this.add(searchBarView, BorderLayout.SOUTH);
+        searchTextField = new JTextField();
+        this.add(searchTextField, BorderLayout.SOUTH);
+        this.add(new JScrollPane(resultList), BorderLayout.CENTER);
 
-        JPanel buttonPanel = new JPanel();
+        // Add a DocumentListener to searchTextField
+        Document searchFieldDoc = searchTextField.getDocument();
+        searchFieldDoc.addDocumentListener(new SearchDocumentListener());
+
         playButton = new JButton("Play");
         skipButton = new JButton("Skip");
         submitButton = new JButton("Submit");
 
+        JPanel buttonPanel = new JPanel();
         buttonPanel.add(playButton);
         buttonPanel.add(skipButton);
         buttonPanel.add(submitButton);
         this.add(buttonPanel, BorderLayout.SOUTH);
 
-        // Add other feature views
+        guessList = new JTextArea();
+        this.add(guessList, BorderLayout.CENTER);
+
+        // Add ActionListener to buttons and search bar
+        // Implement game logic and audio handling
+    }
+
+    private class SearchDocumentListener implements DocumentListener {
+        private Timer timer = new Timer(300, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                onSearch();
+            }
+        }); // 300ms delay before triggering search
+
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            handleSearchRequest();
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            handleSearchRequest();
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+            handleSearchRequest();
+        }
+
+        private void handleSearchRequest() {
+            if (timer.isRunning()) {
+                timer.restart();
+            } else {
+                timer.start();
+            }
+        }
+    }
+
+    private void onSearch() {
+        searchTextField.addActionListener(e -> {
+            String query = searchTextField.getText();
+            viewModel.getState().setCurrentSearchQuery(query);
+
+            // Trigger search in ViewModel
+            // Think something here is wrong...
+            java.util.List<Track> tracks = viewModel.getState().getTracks();
+            updateSearchResults(tracks);
+        });
+
+        resultList.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent evt) {
+                String selectedTrack = resultList.getSelectedValue();
+                searchTextField.setText(selectedTrack);
+                // Play track here
+            }
+        });
+    }
+
+    private void updateSearchResults(java.util.List<Track> tracks) {
+        DefaultListModel<String> model = new DefaultListModel<>();
+        for (Track track : tracks) {
+            model.addElement(track.getTitle() + " - " + track.getArtist());
+        }
+        resultList.setModel(model);
     }
 
     // For Testing purposes
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            GameView gameView = new GameView();
-            gameView.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            gameView.setVisible(true);
+            GameView app = new GameView();
+            app.setVisible(true);
         });
     }
+
+
+
 }
