@@ -29,7 +29,7 @@ public class SearchBarView extends JFrame{
         this.setLayout(new BorderLayout());
         
         searchTextField = new JTextField(20);
-        
+
         JPanel northPanel = new JPanel(); 
         northPanel.add(searchTextField);
 

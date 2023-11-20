@@ -20,4 +20,13 @@ public class GameView extends JFrame {
         this.add(searchBarView, BorderLayout.SOUTH);
         // Add other feature views
     }
+
+    // For Testing purposes
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            GameView gameView = new GameView();
+            gameView.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            gameView.setVisible(true);
+        });
+    }
 }
