@@ -8,12 +8,8 @@ import java.beans.PropertyChangeSupport;
 public class LeaderboardViewModel extends ViewModel {
 
 
-    public void setState(LeaderboardState state) {
-        this.state = state;
-    }
-
     private LeaderboardState state = new LeaderboardState();
-    private PropertyChangeSupport support = new PropertyChangeSupport(this);
+    private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 
     public LeaderboardViewModel() {
         super("leaderboard");
@@ -23,6 +19,9 @@ public class LeaderboardViewModel extends ViewModel {
         return state;
     }
 
+    public void setState(LeaderboardState state) {
+        this.state = state;
+    }
 
     @Override
     public void firePropertyChanged() {

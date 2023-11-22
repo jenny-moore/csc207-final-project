@@ -15,7 +15,6 @@ public class LeaderboardPresenter implements LeaderboardOutputBoundary {
     public void prepareSuccessView(LeaderboardOutputData data) {
         LeaderboardState leaderboardState = leaderboardViewModel.getState();
         leaderboardState.setData(data.getData());
-        this.leaderboardViewModel.setState(leaderboardState);
         this.leaderboardViewModel.firePropertyChanged();
     }
 }
