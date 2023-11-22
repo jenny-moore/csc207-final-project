@@ -1,26 +1,28 @@
 package use_case.skip;
 
-public class SkipInteractor implements SkipInputBoundary{
+import use_case.guess.*;
 
-    final SkipDataAccessInterface playerDataAccessObject;
-    final SkipOutputBoundary skipPresenter;
+public class SkipInteractor implements GuessInputBoundary {
 
-    public SkipInteractor(SkipDataAccessInterface playerDataAccessObject, SkipOutputBoundary skipPresenter) {
+    final GuessDataAccessInterface playerDataAccessObject;
+    final GuessOutputBoundary guessPresenter;
+
+    public SkipInteractor(GuessDataAccessInterface playerDataAccessObject, GuessOutputBoundary guessPresenter) {
         this.playerDataAccessObject = playerDataAccessObject;
-        this.skipPresenter = skipPresenter;
+        this.guessPresenter = guessPresenter;
     }
     @Override
-    public void execute(SkipInputData skipInputData) {
-        SkipOutputData outputData = new SkipOutputData();
-        if (skipInputData.getGuesses() >= skipInputData.getMaxGuesses()){
+    public void execute(GuessInputData guessInputData) {
+        GuessOutputData outputData = new GuessOutputData();
+        if (guessInputData.getGuesses() >= guessInputData.getMaxGuesses()){
             playerDataAccessObject.saveGame(0);
             outputData.setGuesses(1);
-            skipPresenter.endGame(outputData);
+            guessPresenter.endGame(outputData);
         }
         else{
-            outputData.setGuesses(skipInputData.getGuesses() + 1);
-            outputData.setSong(skipInputData.getSong());
-            skipPresenter.continueGame(outputData);
+            outputData.setGuesses(guessInputData.getGuesses() + 1);
+            outputData.setSong(guessInputData.getSong());
+            guessPresenter.continueGame(outputData);
         }
     }
 }
