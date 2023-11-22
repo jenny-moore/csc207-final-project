@@ -2,7 +2,6 @@ package interface_adapter.choose_genre;
 
 import use_case.choose_genre.ChooseInputBoundary;
 import use_case.choose_genre.ChooseInputData;
-import use_case.choose_genre.ChooseInteractor;
 
 public class ChooseController {
     final ChooseInputBoundary chooseInteractor;
