@@ -79,6 +79,8 @@ public class SearchQueryDataAccessObject implements SearchBarDataAccessInterface
                 JSONArray tracksJson = jsonResponse.getJSONObject("tracks").getJSONArray("items");
 
                 List<Track> tracks = new ArrayList<>();
+                // TODO: Figure out what to do if the length of list is smaller than fixed search result size
+                // using tracksJson.length() for now but it's not ideal
                 for (int i = 0; i < tracksJson.length(); i++) {
                     JSONObject trackJson = tracksJson.getJSONObject(i);
                     String spotifyID = trackJson.getString("id");
@@ -89,7 +91,6 @@ public class SearchQueryDataAccessObject implements SearchBarDataAccessInterface
                     Track track = trackFactory.create(artist, title, spotifyID, null);
                     tracks.add(track);
                 }
-                System.out.println(tracks);
                 return tracks;
             } else {
                 System.out.println("Failed to search tracks. Response code: " + response.code());
