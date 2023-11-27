@@ -1,15 +1,15 @@
 package interface_adapter.skip;
 
-import use_case.skip.SkipInputBoundary;
-import use_case.skip.SkipInputData;
+import use_case.guess.GuessInputBoundary;
+import use_case.guess.GuessInputData;
 
 public class SkipController {
-    final SkipInputBoundary skipInteractor;
-    public SkipController(SkipInputBoundary skipInteractor){
+    final GuessInputBoundary skipInteractor;
+    public SkipController(GuessInputBoundary skipInteractor){
         this.skipInteractor = skipInteractor;
     }
     public void execute(String currentSong, String guess, int guesses, int maxGuesses){
-        SkipInputData data = new SkipInputData(currentSong, guesses, maxGuesses);
+        GuessInputData data = new GuessInputData(currentSong, "", guesses, maxGuesses);
         skipInteractor.execute(data);
     }
 }

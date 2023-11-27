@@ -1,5 +1,6 @@
 package data_access.player_data;
 
+import entity.PlayerData;
 import use_case.guess.GuessDataAccessInterface;
 
 import java.io.*;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 public class PlayerDataAccess implements GuessDataAccessInterface {
     final private String[] data;
     final private int[] scores;
+    final private PlayerData playerData = new PlayerData();
     public PlayerDataAccess(int[] scores) {
         this.scores = scores;
         ArrayList<String> data = new ArrayList<>();

@@ -1,7 +1,7 @@
 package interface_adapter.leaderboard;
 
 public class LeaderboardState {
-    private int[] data = null;
+    private int[] data = {};
 
     public void setData(int[] data) {
         this.data = data;

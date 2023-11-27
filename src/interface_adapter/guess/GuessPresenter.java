@@ -1,13 +1,19 @@
 package interface_adapter.guess;
 
+import interface_adapter.ViewManagerModel;
+import interface_adapter.leaderboard.LeaderboardViewModel;
 import use_case.guess.GuessOutputBoundary;
 import use_case.guess.GuessOutputData;
 
 public class GuessPresenter implements GuessOutputBoundary {
     private final GuessViewModel guessViewModel;
+    private final LeaderboardViewModel leaderbordViewModel;
+    private final ViewManagerModel viewManagerModel;
 
-    public GuessPresenter(GuessViewModel guessViewModel) {
+    public GuessPresenter(ViewManagerModel viewManagerModel, GuessViewModel guessViewModel, LeaderboardViewModel leaderboardViewModel) {
+        this.viewManagerModel = viewManagerModel;
         this.guessViewModel = guessViewModel;
+        this.leaderbordViewModel = leaderboardViewModel;
     }
     @Override
     public void endGame(GuessOutputData outputData) {
@@ -15,8 +21,9 @@ public class GuessPresenter implements GuessOutputBoundary {
         guessState.setGuesses(1);
         guessViewModel.setState(guessState);
         guessViewModel.firePropertyChanged();
-        // Change the view
-        // Must create a view manager model
+
+        viewManagerModel.setActiveView(leaderbordViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
     }
 
     @Override

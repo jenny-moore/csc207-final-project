@@ -13,6 +13,8 @@ public class LeaderboardPresenter implements LeaderboardOutputBoundary {
 
     @Override
     public void prepareSuccessView(LeaderboardOutputData data) {
-
+        LeaderboardState leaderboardState = leaderboardViewModel.getState();
+        leaderboardState.setData(data.getData());
+        this.leaderboardViewModel.firePropertyChanged();
     }
 }
