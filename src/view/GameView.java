@@ -13,8 +13,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 
 public class GameView extends JFrame implements PropertyChangeListener {
     private JTextField searchTextField;
@@ -23,6 +21,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
     private JTextArea guessList; // display previous guesses
     private SearchBarViewModel searchBarViewModel;
     private SearchBarController searchBarController;
+    private JPanel centerPanel; // Panel to hold both resultList and guessList
 
     public GameView(SearchBarViewModel searchBarViewModel, SearchBarController searchBarController) {
         this.searchBarViewModel = searchBarViewModel;
@@ -35,16 +34,24 @@ public class GameView extends JFrame implements PropertyChangeListener {
         this.setSize(600, 800);
         setLayout(new BorderLayout());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.getContentPane().setBackground(Color.BLACK); // not working btw
+        this.setBackground(Color.BLACK); // TODO: How to set entire app background color to black?
 
         searchTextField = new JTextField();
         this.add(searchTextField, BorderLayout.NORTH);
-        resultList = new JList<>();
-        this.add(new JScrollPane(resultList), BorderLayout.WEST);
 
-        // Add a DocumentListener to searchTextField
-//        Document searchFieldDoc = searchTextField.getDocument();
-//        searchFieldDoc.addDocumentListener(new SearchDocumentListener());
+        centerPanel = new JPanel();
+        centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
+        this.add(centerPanel, BorderLayout.CENTER);
+
+        resultList = new JList<>();
+        JScrollPane scrollPane = new JScrollPane(resultList);
+        scrollPane.setPreferredSize(new Dimension(600, 100)); // Set preferred size to control the size
+        centerPanel.add(scrollPane);
+
+        // TODO: Find a better name for guessList and should change JTextArea to a Panel
+//        guessList = new JTextArea();
+//        guessList.setEditable(false);
+//        this.add(guessList, BorderLayout.CENTER);
 
         playButton = new JButton("Play");
         skipButton = new JButton("Skip");
@@ -56,8 +63,6 @@ public class GameView extends JFrame implements PropertyChangeListener {
         buttonPanel.add(submitButton);
         this.add(buttonPanel, BorderLayout.SOUTH);
 
-        guessList = new JTextArea();
-        this.add(guessList, BorderLayout.CENTER);
 
         searchTextField.addKeyListener(
                 new KeyListener() {
@@ -71,11 +76,6 @@ public class GameView extends JFrame implements PropertyChangeListener {
                         onSearch(text);
                         System.out.println("Key pressed: Search text is now: " + text);
 
-//                        if (e.getSource() == searchTextField) {
-//                            // System.out.println("I am here babyyy");
-//                            // onSearch();
-//                            // searchBarController.execute(searchTextField.getText());
-//                        }
                     }
 
                     @Override
@@ -124,18 +124,21 @@ public class GameView extends JFrame implements PropertyChangeListener {
     private void updateSearchResults(java.util.List<Track> tracks) {
         System.out.println("im here in updateSearchResults");
         DefaultListModel<String> model = new DefaultListModel<>();
-        for (Track track : tracks) {
-            model.addElement(track.toString());
+
+        for (int i = 0; i < Math.min(5, tracks.size()); i++) { // Limit to 5 tracks
+            model.addElement(tracks.get(i).toString());
         }
+
         resultList.setModel(model);
     }
 
 
     public void propertyChange(PropertyChangeEvent evt) {
         System.out.println("im here in propertyChange");
+        // note: gets called after every character is entered
         if (evt.getNewValue() instanceof SearchBarState) {
             SearchBarState state = (SearchBarState) evt.getNewValue();
-            java.util.List<Track> tracks = state.getTracks(); // Should get at most five
+            List<Track> tracks = state.getTracks();
             updateSearchResults(tracks);
         }
     }
