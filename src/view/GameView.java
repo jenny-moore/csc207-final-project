@@ -18,10 +18,11 @@ public class GameView extends JFrame implements PropertyChangeListener {
     private JTextField searchTextField;
     private JList<String> resultList;
     private JButton playButton, submitButton, skipButton;
-    private JTextArea guessList; // display previous guesses
     private SearchBarViewModel searchBarViewModel;
     private SearchBarController searchBarController;
     private JPanel centerPanel; // Panel to hold both resultList and guessList
+    private JPanel guessPanel; // Panel to hold guess rectangles
+    private JPanel[] guessRectangles; // Array of panels for each guess
 
     public GameView(SearchBarViewModel searchBarViewModel, SearchBarController searchBarController) {
         this.searchBarViewModel = searchBarViewModel;
@@ -32,26 +33,44 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
         this.setTitle("Game View");
         this.setSize(600, 800);
-        setLayout(new BorderLayout());
+        // setLayout(new BorderLayout());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setBackground(Color.BLACK); // TODO: How to set entire app background color to black?
+        this.getContentPane().setBackground(Color.BLACK); // TODO: How to set entire app background color to black?
 
+        // Setup for searchTextField
         searchTextField = new JTextField();
+        searchTextField.setForeground(Color.WHITE);
+        searchTextField.setBackground(Color.BLACK);
         this.add(searchTextField, BorderLayout.NORTH);
 
+        // Setup for centerPanel
         centerPanel = new JPanel();
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
+        centerPanel.setBackground(Color.BLACK); // NONE OF THIS IS WORKING UGH WHY
+        centerPanel.setOpaque(true);
         this.add(centerPanel, BorderLayout.CENTER);
 
+        // Setup for resultList
         resultList = new JList<>();
         JScrollPane scrollPane = new JScrollPane(resultList);
         scrollPane.setPreferredSize(new Dimension(600, 100)); // Set preferred size to control the size
+        scrollPane.setBackground(Color.BLACK);
+        scrollPane.setForeground(Color.WHITE);
         centerPanel.add(scrollPane);
 
-        // TODO: Find a better name for guessList and should change JTextArea to a Panel
-//        guessList = new JTextArea();
-//        guessList.setEditable(false);
-//        this.add(guessList, BorderLayout.CENTER);
+        // Setup for guessPanel
+        guessPanel = new JPanel();
+        guessPanel.setLayout(new GridLayout(6, 1, 5, 5));
+        guessPanel.setBackground(Color.BLACK);
+
+        guessRectangles = new JPanel[6];
+        for (int i = 0; i < guessRectangles.length; i++) {
+            guessRectangles[i] = new JPanel();
+            guessRectangles[i].setBackground(Color.WHITE);
+            guessPanel.add(guessRectangles[i]);
+        }
+        centerPanel.add(guessPanel);
+        // this.add(guessPanel, BorderLayout.CENTER); // Use this if adding directly to the frame
 
         playButton = new JButton("Play");
         skipButton = new JButton("Skip");
@@ -61,6 +80,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
         buttonPanel.add(playButton);
         buttonPanel.add(skipButton);
         buttonPanel.add(submitButton);
+        buttonPanel.setBackground(Color.BLACK);
         this.add(buttonPanel, BorderLayout.SOUTH);
 
 
@@ -104,7 +124,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
         // Now request focus
         searchTextField.requestFocusInWindow();
 
-        // Add ActionListener to buttons and search bar
+        // Add ActionListener to buttons and guess panel
         // Implement game logic and audio handling
     }
 
