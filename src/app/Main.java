@@ -43,7 +43,7 @@ public class Main {
         HomeView homeView = new HomeView(playAgainController);
 
         ChooseOutputBoundary choosePresenter = new ChoosePresenter(chooseViewModel, searchBarViewModel, viewManagerModel);
-        ChooseDataAccessInterface chooseDataAccess = new SpotifyPlaylistDataAccessObject();
+        ChooseDataAccessInterface chooseDataAccess = dataAccessObject;
         ChooseInputBoundary chooseInteractor = new ChooseInteractor(choosePresenter, chooseDataAccess);
         ChooseController chooseController = new ChooseController(chooseInteractor);
         ChooseView chooseView = new ChooseView(chooseController, chooseViewModel);
