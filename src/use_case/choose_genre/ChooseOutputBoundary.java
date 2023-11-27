@@ -2,5 +2,7 @@ package use_case.choose_genre;
 
 public interface ChooseOutputBoundary {
 
-    void present(ChooseOutputData outputData);
+    void prepareSuccessView(ChooseOutputData outputData);
+
+    void prepareFailView(String error);
 }

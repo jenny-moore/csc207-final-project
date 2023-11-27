@@ -1,29 +1,44 @@
 package app;
 
-import data_access.PlayDataAccessObject;
 import data_access.SpotifyPlaylistDataAccessObject;
-import entity.Game;
-import entity.Track;
-import interface_adapter.PlaySong.PlayController;
-import interface_adapter.PlaySong.PlayPresenter;
-import use_case.play.*;
+import interface_adapter.ViewManagerModel;
+import interface_adapter.choose_genre.ChooseViewModel;
+import interface_adapter.play_again.PlayAgainController;
+import interface_adapter.play_again.PlayAgainPresenter;
+import use_case.play_again.PlayAgainInputBoundary;
+import use_case.play_again.PlayAgainInteractor;
+import use_case.play_again.PlayAgainOutputBoundary;
+import view.HomeView;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class Main {
-
-
     public static void main(String[] args) {
-        PlayDataAccessInterface dataAccess = new PlayDataAccessObject();
-        PlayOutputBoundary playPresenter = new PlayPresenter();
-        PlayInputBoundary playInteractor = new PlayInteractor(new PlayPresenter(), dataAccess);
-        PlayController playController = new PlayController(playInteractor);
+        JFrame application = new JFrame("Es");
+        application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        CardLayout cardLayout = new CardLayout();
 
-        Game game = new Game();
-        Track track = new Track("Ohio", "While I Can", "idc", "no u dumb", "./src/data_access/While I Can.mp3");
-        System.out.println(track.getTitle() + " by " + track.getArtist());
+        JPanel views = new JPanel(cardLayout);
+        application.add(views);
 
-        playController.execute(track, 5);
+        ViewManagerModel viewManagerModel = new ViewManagerModel();
 
+        ChooseViewModel chooseViewModel = new ChooseViewModel();
+
+        SpotifyPlaylistDataAccessObject dataAccessObject = new SpotifyPlaylistDataAccessObject();
+
+        PlayAgainOutputBoundary presenter = new PlayAgainPresenter(viewManagerModel, chooseViewModel);
+        PlayAgainInputBoundary playAgainInteractor = new PlayAgainInteractor(presenter);
+        PlayAgainController playAgainController = new PlayAgainController(playAgainInteractor);
+        HomeView homeView = new HomeView(playAgainController);
+        views.add(homeView);
+        viewManagerModel.setActiveView((homeView.viewName));
+        viewManagerModel.firePropertyChanged();
+
+        application.setSize(500, 300);
+
+        application.setVisible(true);
+    }
     }
 
-
-}

@@ -104,7 +104,6 @@ public class Test {
             return null;
         }
     }
-
     public static void main(String[] args) {
         String token = getApiToken();
         JSONObject result = searchForArtist(token, "周杰伦");
