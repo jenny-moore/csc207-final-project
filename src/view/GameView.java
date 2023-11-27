@@ -126,7 +126,6 @@ public class GameView extends JFrame implements PropertyChangeListener {
                         searchBarViewModel.setState(currentState);
 
                         onSearch(text);
-                        System.out.println("Key pressed: Search text is now: " + text);
 
                     }
 
@@ -182,30 +181,27 @@ public class GameView extends JFrame implements PropertyChangeListener {
     private void onSearch(String query) {
         // set it as a state
         // call search controller with the query
-        System.out.println("im here in onSearch");
         searchBarController.execute(query);
 
         // searchBarViewModel.getState().setCurrentSearchQuery(query);
         // Trigger search in ViewModel
         List<Track> tracks = searchBarViewModel.getState().getTracks();
-        System.out.println(tracks);
         updateSearchResults(tracks); // Update Jlist Model
     }
 
     private void updateSearchResults(java.util.List<Track> tracks) {
-        System.out.println("im here in updateSearchResults");
         DefaultListModel<String> model = new DefaultListModel<>();
 
-        for (int i = 0; i < Math.min(10, tracks.size()); i++) { // Limit to 5 tracks
+        for (int i = 0; i < Math.min(10, tracks.size()); i++) { // Limit to 10 tracks
             model.addElement(tracks.get(i).toString());
         }
+        // Note: If the arraylist is empty, search results shows nothing
 
         resultList.setModel(model);
     }
 
 
     public void propertyChange(PropertyChangeEvent evt) {
-        System.out.println("im here in propertyChange");
         if (evt.getNewValue() instanceof SearchBarState) {
             SearchBarState state = (SearchBarState) evt.getNewValue();
             List<Track> tracks = state.getTracks();
