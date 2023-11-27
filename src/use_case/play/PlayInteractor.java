@@ -1,12 +1,18 @@
 package use_case.play;
 
 import entity.Track;
+import javazoom.jl.decoder.JavaLayerException;
+import javazoom.jl.player.AudioDevice;
+import javazoom.jl.player.FactoryRegistry;
+import javazoom.jl.player.JavaSoundAudioDevice;
+import javazoom.jl.player.Player;
+import javazoom.jl.player.advanced.AdvancedPlayer;
+import javazoom.jl.player.advanced.PlaybackEvent;
+import javazoom.jl.player.advanced.PlaybackListener;
 
 import javax.print.attribute.standard.Media;
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
+import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -15,10 +21,16 @@ import javax.sound.sampled.*;
 import javax.swing.JOptionPane;
 
 
+
 public class PlayInteractor implements PlayInputBoundary{
     final Track track = null;
     final PlayOutputBoundary playPresenter;
     final PlayDataAccessInterface dataAccess;
+    boolean isPlaybackCompleted;
+
+    private Thread playerThread;
+    private AudioDevice device;
+    private FloatControl volControl;
 
     public PlayInteractor(PlayOutputBoundary playPresenter, PlayDataAccessInterface dataAccess){
         this.playPresenter = playPresenter;
@@ -27,67 +39,104 @@ public class PlayInteractor implements PlayInputBoundary{
     @Override
     public void execute(PlayInputData playInputData) {
 
-        if (!dataAccess.play(playInputData.getTrack(), playInputData.getTryNumber() * 2000, 0)){
+        /*if (!dataAccess.play(playInputData.getTrack(), playInputData.getTryNumber() * 2000, 0)){
             playPresenter.prepareFailView("Track failed to play");
         }
         else{
             playPresenter.prepareSuccessView();
         }
+        */
 
-        /*try{
+        try{
+            String audioFilePath = playInputData.getTrack().getAudioFile();
+            System.out.println(audioFilePath);
 
-            URL url = new URL(playInputData.getTrack().getAudioLink());
-            File f = new File("./src/interface_adapter/play/sound.wav");
+            FileInputStream fis = new FileInputStream(audioFilePath);
 
-            urlToFile(url, f);
-            mp3ToWav(f);
+            this.device = FactoryRegistry.systemRegistry().createAudioDevice();
 
-            AudioInputStream audioInput = AudioSystem.getAudioInputStream(f);
-            Clip clip = AudioSystem.getClip();
-            clip.open(audioInput);
-            int length = clip.getFrameLength();
-            int startPos = (length / 30) * playInputData.getTryNumber();
-            clip.setFramePosition(startPos);
-            clip.start();
+            AdvancedPlayer player = new AdvancedPlayer(fis, device);
+            player.setPlayBackListener(new PlaybackListener() {
+                @Override
+                public void playbackFinished(PlaybackEvent evt) {
+                    System.out.println("Playback done");
+                }
+            });
 
-        } catch(MalformedURLException e){
-            System.out.println("MalformedURLException");;
-        } catch (UnsupportedAudioFileException e) {
-            System.out.println("UnsupportedAudioFileException");
+
+            new PlayerThread(player).start();
+            int millis = playInputData.getTryNumber() * 3000;
+            Thread.sleep(millis);
+            player.stop();
+
+
+
+
+
+           /* InputStream inputStream = getClass().getClassLoader().getResourceAsStream("./src/data_access/While I Can.mp3");
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(inputStream);
+
+            AudioFormat audioFormat = audioStream.getFormat();
+            DataLine.Info info = new DataLine.Info(SourceDataLine.class, audioFormat);
+
+            Clip audioClip = (Clip) AudioSystem.getLine(info);
+            audioClip.addLineListener(this);
+            audioClip.open(audioStream);
+            audioClip.start();
+
+            audioClip.close();
+            audioStream.close();
+            */
+
+
         } catch (IOException e){
             System.out.println("IOException");
-        } catch (LineUnavailableException e) {
-            System.out.println("LineUnavailableException");
+        } catch (JavaLayerException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            System.out.println("InterruptedException");
         }
-*/
+
     }
-    public static void urlToFile (URL url, File file){
-        try (BufferedInputStream in = new BufferedInputStream(url.openStream());
-             FileOutputStream fileOutputStream = new FileOutputStream(file)) {
-            byte dataBuffer[] = new byte[1024];
-            int bytesRead;
-            while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {
-                fileOutputStream.write(dataBuffer, 0, bytesRead);
+    public void setVolume(float gain){
+        if(this.volControl == null) {
+            Class<JavaSoundAudioDevice> clazz = JavaSoundAudioDevice.class;
+            Field[] fields = clazz.getDeclaredFields();
+            try{
+                SourceDataLine source = null;
+                for(Field field : fields) {
+                    if("source".equals(field.getName())) {
+                        field.setAccessible(true);
+                        source = (SourceDataLine) field.get(this.device);
+                        field.setAccessible(false);
+                        this.volControl = (FloatControl) source.getControl(FloatControl.Type.MASTER_GAIN);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        }
+        if (this.volControl != null) {
+            float newGain = Math.min(Math.max(gain, volControl.getMinimum()), volControl.getMaximum());
+            System.out.println("Was: " + volControl.getValue() + " Will be: " + newGain);
+
+            volControl.setValue(newGain);
         }
     }
-    public static void mp3ToWav(File mp3Data) throws UnsupportedAudioFileException, IOException {
-        // open stream
-        AudioInputStream mp3Stream = AudioSystem.getAudioInputStream(mp3Data);
-        AudioFormat sourceFormat = mp3Stream.getFormat();
-        // create audio format object for the desired stream/audio format
-        // this is *not* the same as the file format (wav)
-        AudioFormat convertFormat = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED,
-                sourceFormat.getSampleRate(), 16,
-                sourceFormat.getChannels(),
-                sourceFormat.getChannels() * 2,
-                sourceFormat.getSampleRate(),
-                false);
-        // create stream that delivers the desired format
-        AudioInputStream converted = AudioSystem.getAudioInputStream(convertFormat, mp3Stream);
-        // write stream into a file with file format wav
-        AudioSystem.write(converted, AudioFileFormat.Type.WAVE, new File("C:\\temp\\out.wav"));
+
+
+}
+class PlayerThread extends Thread{
+    private final AdvancedPlayer player;
+    public PlayerThread(AdvancedPlayer player){
+        this.player = player;
+    }
+    public void run(){
+        try{
+            Thread.sleep(100);
+            player.play(700, Integer.MAX_VALUE);
+        } catch (JavaLayerException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
