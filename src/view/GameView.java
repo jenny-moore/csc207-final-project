@@ -34,27 +34,45 @@ public class GameView extends JFrame implements PropertyChangeListener {
         this.setTitle("Game View");
         this.setSize(600, 800);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.getContentPane().setBackground(Color.BLACK); // TODO: Fix background color issue
+        this.getContentPane().setBackground(Color.BLACK);
+        Font font = new Font("SansSerif", Font.PLAIN, 16); // Choose the desired font and size
+        this.setFont(font);
+
+        JPanel searchPanel = new JPanel(new BorderLayout());
+        searchPanel.setBackground(Color.BLACK); // Set the background color to match the frame
+
+        int topPadding = 10; // Padding for the search bar
+        searchPanel.setBorder(BorderFactory.createEmptyBorder(topPadding, 0, 0, 0));
 
         // Setup for searchTextField
         searchTextField = new JTextField();
         searchTextField.setForeground(Color.WHITE);
         searchTextField.setBackground(Color.BLACK);
-        this.add(searchTextField, BorderLayout.NORTH);
+        Font searchTextFont = new Font("SansSerif", Font.PLAIN, 18); // Choose the desired font and size
+        searchTextField.setFont(searchTextFont);
+        searchTextField.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 2));
+
+        searchPanel.add(searchTextField, BorderLayout.CENTER);
+        this.add(searchPanel, BorderLayout.NORTH);
+        // this.add(searchTextField, BorderLayout.NORTH);
 
         // Setup for centerPanel
         centerPanel = new JPanel();
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
-        centerPanel.setBackground(Color.BLACK); // TODO: background color issue pt. 2
+        centerPanel.setBackground(Color.BLACK);
         // centerPanel.setOpaque(true);
         this.add(centerPanel, BorderLayout.CENTER);
 
         // Setup for resultList
         resultList = new JList<>();
+        resultList.setBackground(Color.BLACK);
+        resultList.setForeground(Color.WHITE);
+        Font resultFont = new Font("SansSerif", Font.PLAIN, 16); // Choose the desired font and size
+        resultList.setFont(resultFont);
+
         JScrollPane scrollPane = new JScrollPane(resultList);
         scrollPane.setPreferredSize(new Dimension(600, 200));
-        scrollPane.getViewport().setBackground(Color.BLACK); // TODO: background color issue pt. 3
-        // scrollPane.setForeground(Color.WHITE);
+        scrollPane.setBorder(null);
         centerPanel.add(scrollPane);
 
         // Setup for guessPanel
@@ -72,16 +90,19 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
             // Initialize each label and add it to the corresponding panel
             guessLabels[i] = new JLabel("");
+            // TODO: Set font and size (resultFont should be sufficient?)
             guessLabels[i].setForeground(Color.BLACK);
             guessRectangles[i].add(guessLabels[i]);
         }
         centerPanel.add(guessPanel);
 
-        // Add an invisible spacer
+        // Add an invisible spacer (to push the guessPanel towards the top / north of the centerPanel)
         Dimension minSize = new Dimension(0, 10); // Minimum size
-        Dimension prefSize = new Dimension(0, 130); // Preferred size (adjust this to control the space)
+        Dimension prefSize = new Dimension(0, 20); // Preferred size (adjust this to control the space)
         Dimension maxSize = new Dimension(Short.MAX_VALUE, 150); // Maximum size
         centerPanel.add(new Box.Filler(minSize, prefSize, maxSize));
+
+        // TODO: Include progress bar (or at least something to track progression of song / number of guesses)
 
         playButton = new JButton("Play");
         skipButton = new JButton("Skip");
@@ -131,21 +152,21 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
         skipButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // add logic for skipButton here
+                // TODO: add logic for skipButton here
                 // make sure to update guess label
             }
         });
 
         playButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // add logic for playButton here
+                // TODO: add logic for playButton here
                 // make sure to update guess label
             }
         });
 
         submitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // add logic for submitButton here
+                // TODO: add logic for submitButton here
                 // make sure to update guess label
             }
         });
@@ -156,10 +177,6 @@ public class GameView extends JFrame implements PropertyChangeListener {
         // Now request focus
         searchTextField.requestFocusInWindow();
 
-        // Add ActionListener to buttons and guess panel
-        // TODO: Implement logic for skip button
-        // TODO: Implement logic for submit button
-        // TODO: Implement logic for play button
     }
 
     private void onSearch(String query) {
@@ -179,7 +196,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
         System.out.println("im here in updateSearchResults");
         DefaultListModel<String> model = new DefaultListModel<>();
 
-        for (int i = 0; i < Math.min(5, tracks.size()); i++) { // Limit to 5 tracks
+        for (int i = 0; i < Math.min(10, tracks.size()); i++) { // Limit to 5 tracks
             model.addElement(tracks.get(i).toString());
         }
 
