@@ -1,5 +1,6 @@
 package app;
 
+import data_access.PlayDataAccessObject;
 import data_access.SpotifyPlaylistDataAccessObject;
 import entity.Game;
 import entity.Track;
@@ -11,17 +12,16 @@ public class Main {
 
 
     public static void main(String[] args) {
-        SpotifyPlaylistDataAccessObject dataAccess = new SpotifyPlaylistDataAccessObject();
+        PlayDataAccessInterface dataAccess = new PlayDataAccessObject();
         PlayOutputBoundary playPresenter = new PlayPresenter();
         PlayInputBoundary playInteractor = new PlayInteractor(new PlayPresenter(), dataAccess);
         PlayController playController = new PlayController(playInteractor);
 
         Game game = new Game();
-        dataAccess.chooseGenre("Mandopop", game);
-        Track tract = game.generateTrack("Mandopop");
-        System.out.println(tract.getTitle() + " by " + tract.getArtist());
+        Track track = new Track("Ohio", "While I Can", "idc", "no u dumb", "./src/data_access/While I Can.mp3");
+        System.out.println(track.getTitle() + " by " + track.getArtist());
 
-        playController.execute(tract, 1);
+        playController.execute(track, 5);
 
     }
 
