@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class ChooseView extends JFrame implements ActionListener, PropertyChangeListener {
+public class ChooseView extends JPanel implements ActionListener, PropertyChangeListener {
     public final String viewName = "choose";
 
     private final ChooseViewModel chooseViewModel;
@@ -25,11 +25,9 @@ public class ChooseView extends JFrame implements ActionListener, PropertyChange
 
         chooseViewModel.addPropertyChangeListener(this);
 
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(600,800);
         this.setLayout(null);
-        this.setResizable(false);
-        this.getContentPane().setBackground(Color.BLACK);
+        this.setBackground(Color.BLACK);
 
         JLabel title = new JLabel(ChooseViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -45,17 +43,13 @@ public class ChooseView extends JFrame implements ActionListener, PropertyChange
         choose.setBorderPainted(false);
         //choose.setBounds(100,100, 400, 200);
 
-        JPanel buttons = new JPanel();
-        buttons.add(choose);
-        buttons.add(title);
-        buttons.add(genres);
-        buttons.setVisible(true);
+        this.add(choose);
+        this.add(title);
+        this.add(genres);
+        this.setVisible(true);
 
         choose.addActionListener(this);
         genres.addActionListener(this);
-
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        this.add(buttons);
     }
 
     @Override
