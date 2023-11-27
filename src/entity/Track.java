@@ -56,9 +56,6 @@ public class Track {
 
     @Override
     public String toString() {
-        return "Track " + spotifyID + "{" +
-                "artist='" + artist + '\'' +
-                ", title='" + title + '\'' +
-                '}';
+        return artist + " - " + title;
     }
 }

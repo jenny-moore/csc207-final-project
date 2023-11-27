@@ -21,7 +21,6 @@ public class SearchQueryDataAccessObject implements SearchBarDataAccessInterface
 
     private final String CLIENT_SECRET = System.getenv("CLIENT_SECRET");
 
-    private TrackFactoryInterface trackFactory = new TrackFactory();
 
     public String getApiToken() {
         OkHttpClient client = new OkHttpClient();
@@ -55,13 +54,14 @@ public class SearchQueryDataAccessObject implements SearchBarDataAccessInterface
 
     @Override
     public List<Track> searchTracks(String query) {
+        TrackFactory trackFactory = new TrackFactory();
+        OkHttpClient client = new OkHttpClient();
         String token = getApiToken();
         if (token == null) {
             System.out.println("Error retrieving API token.");
             return new ArrayList<>();
         }
 
-        OkHttpClient client = new OkHttpClient();
         HttpUrl.Builder urlBuilder = HttpUrl.parse(SEARCH_API_URL).newBuilder();
         urlBuilder.addQueryParameter("q", query);
         urlBuilder.addQueryParameter("type", "track");
@@ -79,17 +79,18 @@ public class SearchQueryDataAccessObject implements SearchBarDataAccessInterface
                 JSONArray tracksJson = jsonResponse.getJSONObject("tracks").getJSONArray("items");
 
                 List<Track> tracks = new ArrayList<>();
+                // TODO: Figure out what to do if the length of list is smaller than fixed search result size
+                // using tracksJson.length() for now but it's not ideal
                 for (int i = 0; i < tracksJson.length(); i++) {
                     JSONObject trackJson = tracksJson.getJSONObject(i);
                     String spotifyID = trackJson.getString("id");
                     String title = trackJson.getString("name");
                     String artist = trackJson.getJSONArray("artists").getJSONObject(0).getString("name");
                     // Technically not using audioLink, but it's required for the Track constructor
-                    String audioLink = trackJson.getJSONObject("preview_url").getString("preview_url");
-                    Track track = trackFactory.create(artist, title, spotifyID, audioLink);
+                    // String audioLink = trackJson.getJSONObject("preview_url").getString("preview_url");
+                    Track track = trackFactory.create(artist, title, spotifyID, null);
                     tracks.add(track);
                 }
-                System.out.println(tracks);
                 return tracks;
             } else {
                 System.out.println("Failed to search tracks. Response code: " + response.code());
