@@ -15,27 +15,26 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 public class GameView extends JFrame implements PropertyChangeListener {
-    private JTextField searchTextField;
-    private JList<String> resultList;
-    private JButton playButton, submitButton, skipButton;
+    private JTextField searchTextField; // Text field for user to enter search query
+    private JList<String> resultList; // List to store all search results
+    private JButton playButton, submitButton, skipButton; // Buttons for user to play, submit guess, and skip
     private SearchBarViewModel searchBarViewModel;
     private SearchBarController searchBarController;
     private JPanel centerPanel; // Panel to hold both resultList and guessList
     private JPanel guessPanel; // Panel to hold guess rectangles
     private JPanel[] guessRectangles; // Array of panels for each guess
+    private JLabel[] guessLabels; // Array of labels for each guess
 
     public GameView(SearchBarViewModel searchBarViewModel, SearchBarController searchBarController) {
         this.searchBarViewModel = searchBarViewModel;
         this.searchBarController = searchBarController;
 
-        System.out.println("im here in game view");
         searchBarViewModel.addPropertyChangeListener(this);
 
         this.setTitle("Game View");
         this.setSize(600, 800);
-        // setLayout(new BorderLayout());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.getContentPane().setBackground(Color.BLACK); // TODO: How to set entire app background color to black?
+        this.getContentPane().setBackground(Color.BLACK); // TODO: Fix background color issue
 
         // Setup for searchTextField
         searchTextField = new JTextField();
@@ -46,31 +45,43 @@ public class GameView extends JFrame implements PropertyChangeListener {
         // Setup for centerPanel
         centerPanel = new JPanel();
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
-        centerPanel.setBackground(Color.BLACK); // NONE OF THIS IS WORKING UGH WHY
-        centerPanel.setOpaque(true);
+        centerPanel.setBackground(Color.BLACK); // TODO: background color issue pt. 2
+        // centerPanel.setOpaque(true);
         this.add(centerPanel, BorderLayout.CENTER);
 
         // Setup for resultList
         resultList = new JList<>();
         JScrollPane scrollPane = new JScrollPane(resultList);
-        scrollPane.setPreferredSize(new Dimension(600, 100)); // Set preferred size to control the size
-        scrollPane.setBackground(Color.BLACK);
-        scrollPane.setForeground(Color.WHITE);
+        scrollPane.setPreferredSize(new Dimension(600, 200));
+        scrollPane.getViewport().setBackground(Color.BLACK); // TODO: background color issue pt. 3
+        // scrollPane.setForeground(Color.WHITE);
         centerPanel.add(scrollPane);
 
         // Setup for guessPanel
         guessPanel = new JPanel();
-        guessPanel.setLayout(new GridLayout(6, 1, 5, 5));
+        guessPanel.setLayout(new GridLayout(6, 1, 0, 5));
+        guessPanel.setPreferredSize(new Dimension(600, 200));
         guessPanel.setBackground(Color.BLACK);
 
         guessRectangles = new JPanel[6];
+        guessLabels = new JLabel[6];
         for (int i = 0; i < guessRectangles.length; i++) {
             guessRectangles[i] = new JPanel();
             guessRectangles[i].setBackground(Color.WHITE);
             guessPanel.add(guessRectangles[i]);
+
+            // Initialize each label and add it to the corresponding panel
+            guessLabels[i] = new JLabel("");
+            guessLabels[i].setForeground(Color.BLACK);
+            guessRectangles[i].add(guessLabels[i]);
         }
         centerPanel.add(guessPanel);
-        // this.add(guessPanel, BorderLayout.CENTER); // Use this if adding directly to the frame
+
+        // Add an invisible spacer
+        Dimension minSize = new Dimension(0, 10); // Minimum size
+        Dimension prefSize = new Dimension(0, 130); // Preferred size (adjust this to control the space)
+        Dimension maxSize = new Dimension(Short.MAX_VALUE, 150); // Maximum size
+        centerPanel.add(new Box.Filler(minSize, prefSize, maxSize));
 
         playButton = new JButton("Play");
         skipButton = new JButton("Skip");
@@ -118,6 +129,27 @@ public class GameView extends JFrame implements PropertyChangeListener {
             }
         });
 
+        skipButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // add logic for skipButton here
+                // make sure to update guess label
+            }
+        });
+
+        playButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // add logic for playButton here
+                // make sure to update guess label
+            }
+        });
+
+        submitButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // add logic for submitButton here
+                // make sure to update guess label
+            }
+        });
+
         // After setting up the GUI and making the JFrame visible
         this.setVisible(true);
 
@@ -125,7 +157,9 @@ public class GameView extends JFrame implements PropertyChangeListener {
         searchTextField.requestFocusInWindow();
 
         // Add ActionListener to buttons and guess panel
-        // Implement game logic and audio handling
+        // TODO: Implement logic for skip button
+        // TODO: Implement logic for submit button
+        // TODO: Implement logic for play button
     }
 
     private void onSearch(String query) {
@@ -155,7 +189,6 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
     public void propertyChange(PropertyChangeEvent evt) {
         System.out.println("im here in propertyChange");
-        // note: gets called after every character is entered
         if (evt.getNewValue() instanceof SearchBarState) {
             SearchBarState state = (SearchBarState) evt.getNewValue();
             List<Track> tracks = state.getTracks();
