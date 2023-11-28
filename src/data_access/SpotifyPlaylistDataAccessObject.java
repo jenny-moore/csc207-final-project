@@ -7,7 +7,6 @@ import okhttp3.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import use_case.choose_genre.ChooseDataAccessInterface;
-import use_case.play.PlayDataAccessInterface;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -95,7 +94,7 @@ public class SpotifyPlaylistDataAccessObject implements ChooseDataAccessInterfac
                         String newName = artistsArray.getJSONObject(j).getString("name");
                         artistName.append(", ").append(newName);
                     }
-                    tracks.add(trackFactory.create(artistName.toString(), trackName, spotifyId, audioLink, ""));
+                    tracks.add(trackFactory.create(artistName.toString(), trackName, spotifyId, audioLink, null));
                 }
                 game.addPlaylist(genre, tracks.toArray(new Track[tracks.size()]));
             } else {

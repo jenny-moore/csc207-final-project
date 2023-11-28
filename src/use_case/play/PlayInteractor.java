@@ -24,16 +24,12 @@ import javax.swing.JOptionPane;
 
 public class PlayInteractor implements PlayInputBoundary{
     final Track track = null;
-    final PlayOutputBoundary playPresenter;
     final PlayDataAccessInterface dataAccess;
-    boolean isPlaybackCompleted;
 
-    private Thread playerThread;
     private AudioDevice device;
     private FloatControl volControl;
 
-    public PlayInteractor(PlayOutputBoundary playPresenter, PlayDataAccessInterface dataAccess){
-        this.playPresenter = playPresenter;
+    public PlayInteractor(PlayDataAccessInterface dataAccess){
         this.dataAccess = dataAccess;
     }
     @Override

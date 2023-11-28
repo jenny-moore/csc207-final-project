@@ -18,7 +18,7 @@ public class Track {
         this.audioFile = audioFile;
     }
 
-    // Getter for artista
+    // Getter for artist
     public String getArtist() {
         return artist;
     }
@@ -64,9 +64,6 @@ public class Track {
 
     @Override
     public String toString() {
-        return "Track " + spotifyID + "{" +
-                "artist='" + artist + '\'' +
-                ", title='" + title + '\'' +
-                '}';
+        return artist + " - " + title;
     }
 }
