@@ -9,7 +9,7 @@ public class TrackFactory implements TrackFactoryInterface{
      * @return
      */
     @Override
-    public Track create(String artist, String title, String spotifyID, String audioLink) {
-        return new Track(artist, title, spotifyID, audioLink);
+    public Track create(String artist, String title, String spotifyID, String audioLink, String fileLink) {
+        return new Track(artist, title, spotifyID, audioLink, fileLink);
     }
 }

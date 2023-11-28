@@ -88,7 +88,7 @@ public class SearchQueryDataAccessObject implements SearchBarDataAccessInterface
                     String artist = trackJson.getJSONArray("artists").getJSONObject(0).getString("name");
                     // Technically not using audioLink, but it's required for the Track constructor
                     // String audioLink = trackJson.getJSONObject("preview_url").getString("preview_url");
-                    Track track = trackFactory.create(artist, title, spotifyID, null);
+                    Track track = trackFactory.create(artist, title, spotifyID, null, null);
                     tracks.add(track);
                 }
                 return tracks;

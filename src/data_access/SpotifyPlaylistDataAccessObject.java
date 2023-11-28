@@ -11,10 +11,12 @@ import use_case.choose_genre.ChooseDataAccessInterface;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.HashMap;
 
-public class SpotifyPlaylistDataAccessObject implements ChooseDataAccessInterface {
+public class SpotifyPlaylistDataAccessObject implements ChooseDataAccessInterface{
     private final String API_URL = "https://accounts.spotify.com/api/token";
 
     private final String CLIENT_ID = System.getenv("CLIENT_ID");
@@ -92,7 +94,7 @@ public class SpotifyPlaylistDataAccessObject implements ChooseDataAccessInterfac
                         String newName = artistsArray.getJSONObject(j).getString("name");
                         artistName.append(", ").append(newName);
                     }
-                    tracks.add(trackFactory.create(artistName.toString(), trackName, spotifyId, audioLink));
+                    tracks.add(trackFactory.create(artistName.toString(), trackName, spotifyId, audioLink, null));
                 }
                 game.addPlaylist(genre, tracks.toArray(new Track[tracks.size()]));
             } else {
@@ -117,5 +119,6 @@ public class SpotifyPlaylistDataAccessObject implements ChooseDataAccessInterfac
         }
         return null;
     }
+
 
 }
