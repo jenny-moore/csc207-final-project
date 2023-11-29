@@ -14,6 +14,7 @@ public class ChooseInteractor implements ChooseInputBoundary{
         this.genreDataAccessObject = genreDataAccessObject;
         this.gameDataAccess = gameDataAccess;
     }
+
     public void execute(ChooseInputData chooseGenreInputData) {
         ChooseOutputData outputData = new ChooseOutputData(chooseGenreInputData.getGenre());
         String genre = chooseGenreInputData.getGenre();
@@ -31,5 +32,6 @@ public class ChooseInteractor implements ChooseInputBoundary{
             throw new RuntimeException(e);
         }
         genrePresenter.prepareSuccessView(outputData);
+
     }
 }

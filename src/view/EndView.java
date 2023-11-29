@@ -14,7 +14,9 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Arrays;
 
-public class EndView extends JFrame implements ActionListener, PropertyChangeListener {
+public class EndView extends JPanel implements ActionListener, PropertyChangeListener {
+
+    public final String viewName = "End View";
 
     private final JButton playAgain;
     private final JButton leaderboard;
@@ -24,12 +26,9 @@ public class EndView extends JFrame implements ActionListener, PropertyChangeLis
 
 
     public EndView(LeaderboardController leaderboardController, LeaderboardViewModel leaderboardViewModel, PlayAgainController playAgainController){
-        this.setTitle("End of Game");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(600,800);
         this.setLayout(null);
-        this.setResizable(false);
-        this.getContentPane().setBackground(Color.BLACK);
+        this.setBackground(Color.BLACK);
 
         this.leaderboardController = leaderboardController;
         this.leaderboardViewModel = leaderboardViewModel;

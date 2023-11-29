@@ -4,7 +4,7 @@ import entity.Track;
 import java.util.List;
 
 // An interactor for handling the search logic
-public class SearchBarInteractor {
+public class SearchBarInteractor implements SearchBarInputBoundary {
 
     final SearchBarDataAccessInterface dataAccess;
     final SearchBarOutputBoundary presenter;
