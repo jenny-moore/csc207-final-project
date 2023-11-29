@@ -1,17 +1,21 @@
 package entity;
 
+
 // for reference: https://developer.spotify.com/documentation/web-api/reference/get-track
 public class Track {
     private String artist;
     private String title;
     private String spotifyID;
     private String audioLink;
+    private String audioFile;
 
-    public Track(String artist, String title, String spotifyID, String audioLink) {
+
+    public Track(String artist, String title, String spotifyID, String audioLink, String audioFile) {
         this.artist = artist;
         this.title = title;
         this.spotifyID = spotifyID;
         this.audioLink = audioLink;
+        this.audioFile = audioFile;
     }
 
     // Getter for artist
@@ -53,6 +57,10 @@ public class Track {
     public void setAudioLink(String audioLink) {
         this.audioLink = audioLink;
     }
+
+    public String getAudioFile() { return audioFile;}
+
+    public void setAudioFile(String audioFile) { this.audioFile = audioFile;}
 
     @Override
     public String toString() {

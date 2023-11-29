@@ -15,6 +15,7 @@ public class Game {
         this.curTrack = track;
     }
 
+
     public Track generateTrack(String genre){
         Track[] playlist = songCatalog.get(genre);
         Random rand = new Random();
