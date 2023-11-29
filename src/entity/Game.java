@@ -5,6 +5,15 @@ import java.util.Random;
 
 public class Game {
     private HashMap<String, Track[]> songCatalog = new HashMap();
+    private Track curTrack = null;
+
+    public Track getCurTrack(){
+        return curTrack;
+    }
+
+    public void setCurTrack(Track track){
+        this.curTrack = track;
+    }
 
 
     public Track generateTrack(String genre){
