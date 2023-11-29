@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class ChooseView extends JFrame implements ActionListener, PropertyChangeListener {
+public class ChooseView extends JPanel implements ActionListener, PropertyChangeListener {
     public final String viewName = "choose";
 
     private final ChooseViewModel chooseViewModel;
@@ -25,37 +25,35 @@ public class ChooseView extends JFrame implements ActionListener, PropertyChange
 
         chooseViewModel.addPropertyChangeListener(this);
 
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(600,800);
         this.setLayout(null);
-        this.setResizable(false);
-        this.getContentPane().setBackground(Color.BLACK);
+        this.setBackground(Color.BLACK);
 
         JLabel title = new JLabel(ChooseViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        title.setFont(new Font("Comic Sans", Font.BOLD, 25));
+        title.setBounds(140,25, 200, 50);
+        title.setForeground(Color.white);
 
         genres = new JComboBox(ChooseViewModel.GENRES);
         genres.setFont(new Font("Comic Sans", Font.BOLD, 15));
         genres.setBackground(Color.GREEN);
+        genres.setBounds(75,100, 150, 50);
 
         choose = new JButton(ChooseViewModel.CHOOSE_BUTTON_LABEL);
         choose.setBackground(Color.GREEN);
         choose.setFont(new Font("Comic Sans", Font.BOLD, 15));
         choose.setOpaque(true);
         choose.setBorderPainted(false);
-        //choose.setBounds(100,100, 400, 200);
+        choose.setBounds(250,100, 150, 50);
 
-        JPanel buttons = new JPanel();
-        buttons.add(choose);
-        buttons.add(title);
-        buttons.add(genres);
-        buttons.setVisible(true);
+        this.add(title);
+        this.add(genres);
+        this.add(choose);
+        this.setVisible(true);
 
         choose.addActionListener(this);
         genres.addActionListener(this);
-
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        this.add(buttons);
     }
 
     @Override
