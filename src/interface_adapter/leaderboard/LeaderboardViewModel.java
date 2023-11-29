@@ -12,7 +12,7 @@ public class LeaderboardViewModel extends ViewModel {
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 
     public LeaderboardViewModel() {
-        super("leaderboard");
+        super("End View");
     }
 
     public LeaderboardState getState() {
