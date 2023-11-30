@@ -19,17 +19,11 @@ public class ChoosePresenter implements ChooseOutputBoundary {
     public void prepareSuccessView(ChooseOutputData outputData) {
         ChooseState chooseState = new ChooseState();
         chooseState.setGenre("");
+        System.out.println("here");
         chooseViewModel.setState(chooseState);
         chooseViewModel.firePropertyChanged();
 
         this.viewManagerModel.setActiveView(searchBarViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
-    }
-
-    @Override
-    public void prepareFailView(String error) {
-        ChooseState chooseState = chooseViewModel.getState();
-        chooseState.setError(error);
-        chooseViewModel.firePropertyChanged();
     }
 }

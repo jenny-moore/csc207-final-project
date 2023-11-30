@@ -14,7 +14,9 @@ import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class GameView extends JFrame implements PropertyChangeListener {
+public class GameView extends JPanel implements PropertyChangeListener {
+
+    public final String viewName = "game";
     private JTextField searchTextField; // Text field for user to enter search query
     private JList<String> resultList; // List to store all search results
     private JButton playButton, submitButton, skipButton; // Buttons for user to play, submit guess, and skip
@@ -31,10 +33,8 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
         searchBarViewModel.addPropertyChangeListener(this);
 
-        this.setTitle("Game View");
         this.setSize(600, 800);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.getContentPane().setBackground(Color.BLACK);
+        this.setBackground(Color.BLACK);
         Font font = new Font("SansSerif", Font.PLAIN, 16); // Choose the desired font and size
         this.setFont(font);
 

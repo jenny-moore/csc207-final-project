@@ -10,11 +10,10 @@ public class Track {
     private String audioFile;
 
 
-    public Track(String artist, String title, String spotifyID, String audioLink, String audioFile) {
+    public Track(String artist, String title, String spotifyID, String audioFile) {
         this.artist = artist;
         this.title = title;
         this.spotifyID = spotifyID;
-        this.audioLink = audioLink;
         this.audioFile = audioFile;
     }
 
@@ -46,16 +45,6 @@ public class Track {
     // Setter for spotifyID
     public void setSpotifyID(String spotifyID) {
         this.spotifyID = spotifyID;
-    }
-
-    // Getter for audioLink
-    public String getAudioLink() {
-        return audioLink;
-    }
-
-    // Setter for audioLink
-    public void setAudioLink(String audioLink) {
-        this.audioLink = audioLink;
     }
 
     public String getAudioFile() { return audioFile;}

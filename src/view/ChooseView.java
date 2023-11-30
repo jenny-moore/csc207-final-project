@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class ChooseView extends JFrame implements ActionListener, PropertyChangeListener {
+public class ChooseView extends JPanel implements ActionListener, PropertyChangeListener {
     public final String viewName = "choose";
 
     private final ChooseViewModel chooseViewModel;
@@ -25,11 +25,9 @@ public class ChooseView extends JFrame implements ActionListener, PropertyChange
 
         chooseViewModel.addPropertyChangeListener(this);
 
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(600,800);
-        this.setLayout(null);
-        this.setResizable(false);
-        this.getContentPane().setBackground(Color.BLACK);
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setBackground(Color.BLACK);
 
         JLabel title = new JLabel(ChooseViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -54,7 +52,6 @@ public class ChooseView extends JFrame implements ActionListener, PropertyChange
         choose.addActionListener(this);
         genres.addActionListener(this);
 
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(buttons);
     }
 
@@ -62,7 +59,7 @@ public class ChooseView extends JFrame implements ActionListener, PropertyChange
     public void actionPerformed(ActionEvent evt) {
         if (evt.getSource().equals(choose)) {
             ChooseState currentState = chooseViewModel.getState();
-
+            System.out.println(currentState.getGenre());
             chooseController.execute(currentState.getGenre());
         } else if (evt.getSource().equals(genres)){
             JComboBox cb = (JComboBox)evt.getSource();
@@ -75,11 +72,6 @@ public class ChooseView extends JFrame implements ActionListener, PropertyChange
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals("state")){
-            ChooseState state = (ChooseState) evt.getNewValue();
-            if (state.getError() != null) {
-                JOptionPane.showMessageDialog(this, state.getError());
-            }}
     }
 
 }

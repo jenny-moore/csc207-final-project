@@ -16,7 +16,7 @@ public class SearchBarViewModel extends ViewModel {
     private PropertyChangeSupport support = new PropertyChangeSupport(this);
 
     public SearchBarViewModel() {
-        super("searchbar");
+        super("game");
     }
 
     public SearchBarState getState() {

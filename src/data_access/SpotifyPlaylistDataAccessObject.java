@@ -84,8 +84,6 @@ public class SpotifyPlaylistDataAccessObject implements ChooseDataAccessInterfac
 
                     String spotifyId = item.getJSONObject("track").getString("id");
 
-                    JSONObject externalUrls = item.getJSONObject("track").getJSONObject("preview_url");
-                    String audioLink = externalUrls.getString("spotify");
 
                     // Access artist details
                     JSONArray artistsArray = item.getJSONObject("track").getJSONArray("artists");
@@ -94,7 +92,7 @@ public class SpotifyPlaylistDataAccessObject implements ChooseDataAccessInterfac
                         String newName = artistsArray.getJSONObject(j).getString("name");
                         artistName.append(", ").append(newName);
                     }
-                    tracks.add(trackFactory.create(artistName.toString(), trackName, spotifyId, audioLink, null));
+                    tracks.add(trackFactory.create(artistName.toString(), trackName, spotifyId, null));
                 }
                 game.addPlaylist(genre, tracks.toArray(new Track[tracks.size()]));
             } else {
