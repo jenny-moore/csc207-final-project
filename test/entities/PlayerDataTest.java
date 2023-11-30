@@ -1,4 +1,4 @@
-package test;
+package entities;
 
 import entity.PlayerData;
 import org.junit.jupiter.api.BeforeEach;

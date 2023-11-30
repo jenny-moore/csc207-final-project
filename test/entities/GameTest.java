@@ -1,4 +1,4 @@
-package test;
+package entities;
 
 import entity.Game;
 import entity.Track;
