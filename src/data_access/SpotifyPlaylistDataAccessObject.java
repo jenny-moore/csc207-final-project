@@ -60,9 +60,7 @@ public class SpotifyPlaylistDataAccessObject implements ChooseDataAccessInterfac
         ArrayList<Track> tracks = new ArrayList<Track>();
 
         String playlist_id = getPlayListID(genre);
-        System.out.println(playlist_id);
         String url = "https://api.spotify.com/v1/playlists/" + playlist_id + "?market=CA";
-        System.out.println(url);
         Request request = new Request.Builder()
                 .url(url)
                 .get()

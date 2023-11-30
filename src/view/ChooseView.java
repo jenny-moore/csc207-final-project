@@ -59,7 +59,6 @@ public class ChooseView extends JPanel implements ActionListener, PropertyChange
     public void actionPerformed(ActionEvent evt) {
         if (evt.getSource().equals(choose)) {
             ChooseState currentState = chooseViewModel.getState();
-            System.out.println(currentState.getGenre());
             chooseController.execute(currentState.getGenre());
         } else if (evt.getSource().equals(genres)){
             JComboBox cb = (JComboBox)evt.getSource();

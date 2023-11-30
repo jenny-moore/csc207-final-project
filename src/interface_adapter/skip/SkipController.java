@@ -8,7 +8,7 @@ public class SkipController {
     public SkipController(GuessInputBoundary skipInteractor){
         this.skipInteractor = skipInteractor;
     }
-    public void execute(String currentSong, String guess, int guesses, int maxGuesses){
+    public void execute(String currentSong, int guesses, int maxGuesses){
         GuessInputData data = new GuessInputData(currentSong, "", guesses, maxGuesses);
         skipInteractor.execute(data);
     }
