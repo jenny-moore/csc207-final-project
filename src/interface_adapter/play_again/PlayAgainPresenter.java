@@ -17,6 +17,7 @@ public class PlayAgainPresenter implements PlayAgainOutputBoundary {
     @Override
     public void prepareSuccessView() {
         viewManagerModel.setActiveView(chooseViewModel.getViewName());
+        System.out.println("playagainpresenter.preparesuccessview");
         viewManagerModel.firePropertyChanged();
     }
 }

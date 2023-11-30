@@ -22,7 +22,7 @@ public class HomeView extends JPanel implements ActionListener, PropertyChangeLi
 
         this.playAgainController = playAgainController;
 
-
+        playButton.setFont(new Font("Comic_Sans", Font.PLAIN, 20));
 
         playButton.addActionListener(
                 new ActionListener() {
@@ -31,6 +31,7 @@ public class HomeView extends JPanel implements ActionListener, PropertyChangeLi
                         if (e.getSource().equals(playButton)){
 
                             playAgainController.execute();
+                            playButton.setText("ohio");
                         }
                     }
                 }
@@ -57,6 +58,9 @@ public class HomeView extends JPanel implements ActionListener, PropertyChangeLi
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == playButton){
+            playAgainController.execute();
+        }
     }
 
     @Override
