@@ -72,7 +72,7 @@ public class Main {
         SearchBarOutputBoundary searchBarOutputBoundary = new SearchBarPresenter(searchBarViewModel);
         SearchBarInteractor searchBarInteractor = new SearchBarInteractor(searchBarDataAccessInterface, searchBarOutputBoundary);
         SearchBarController searchBarController = new SearchBarController(searchBarInteractor);
-        GuessDataAccessInterface guessDataAccessInterface = new PlayerDataAccess(null);
+        GuessDataAccessInterface guessDataAccessInterface = new PlayerDataAccess(new int[]{6000, 5000, 4000, 3000, 2000, 1000});
         GuessOutputBoundary guessOutputBoundary = new GuessPresenter(viewManagerModel, guessViewModel, leaderboardViewModel);
         GuessInteractor guessInteractor = new GuessInteractor(guessDataAccessInterface, guessOutputBoundary);
         GuessController guessController = new GuessController(guessInteractor);
