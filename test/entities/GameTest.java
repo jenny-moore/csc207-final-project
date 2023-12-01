@@ -74,10 +74,15 @@ public class GameTest {
         String[] genres = game.getGenres();
         assertEquals(1, genres.length);
         assertEquals("genre", genres[0]);
+        assertTrue(game.genreInGame("genre"));
+        assertFalse(game.genreInGame("other"));
         game.addPlaylist("other", tracks2);
         genres = game.getGenres();
         assertEquals(2, genres.length);
         assertEquals("genre", genres[0]);
         assertEquals("other", genres[0]);
+        assertTrue(game.genreInGame("genre"));
+        assertTrue(game.genreInGame("other"));
+        assertFalse(game.genreInGame("random"));
     }
 }
