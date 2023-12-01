@@ -1,6 +1,7 @@
 package view;
 
 import entity.Track;
+import interface_adapter.PlaySong.PlayController;
 import interface_adapter.choose_genre.ChooseState;
 import interface_adapter.guess.GuessController;
 import interface_adapter.guess.GuessState;
@@ -36,7 +37,7 @@ public class GameView extends JPanel implements PropertyChangeListener {
     private JPanel[] guessRectangles; // Array of panels for each guess
     private JLabel[] guessLabels; // Array of labels for each guess
 
-    public GameView(SearchBarViewModel searchBarViewModel, SearchBarController searchBarController, GuessViewModel guessViewModel, GuessController guessController, SkipController skipController) {
+    public GameView(SearchBarViewModel searchBarViewModel, SearchBarController searchBarController, GuessViewModel guessViewModel, GuessController guessController, SkipController skipController, PlayController playController) {
         this.searchBarViewModel = searchBarViewModel;
         this.searchBarController = searchBarController;
 
@@ -172,7 +173,7 @@ public class GameView extends JPanel implements PropertyChangeListener {
 
         playButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // TODO: add logic for playButton here
+
                 // make sure to update guess label
 
             }
