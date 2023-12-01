@@ -1,9 +1,14 @@
 package view;
 
 import entity.Track;
+import interface_adapter.choose_genre.ChooseState;
+import interface_adapter.guess.GuessController;
+import interface_adapter.guess.GuessState;
+import interface_adapter.guess.GuessViewModel;
 import interface_adapter.search_bar.SearchBarController;
 import interface_adapter.search_bar.SearchBarState;
 import interface_adapter.search_bar.SearchBarViewModel;
+import interface_adapter.skip.SkipController;
 
 import java.util.stream.Collectors;
 import java.util.List;
@@ -20,16 +25,24 @@ public class GameView extends JFrame implements PropertyChangeListener {
     private JButton playButton, submitButton, skipButton; // Buttons for user to play, submit guess, and skip
     private SearchBarViewModel searchBarViewModel;
     private SearchBarController searchBarController;
+    private GuessViewModel guessViewModel;
+    private GuessController guessController;
+    private SkipController skipController;
     private JPanel centerPanel; // Panel to hold both resultList and guessList
     private JPanel guessPanel; // Panel to hold guess rectangles
     private JPanel[] guessRectangles; // Array of panels for each guess
     private JLabel[] guessLabels; // Array of labels for each guess
 
-    public GameView(SearchBarViewModel searchBarViewModel, SearchBarController searchBarController) {
+    public GameView(SearchBarViewModel searchBarViewModel, SearchBarController searchBarController, GuessViewModel guessViewModel, GuessController guessController, SkipController skipController) {
         this.searchBarViewModel = searchBarViewModel;
         this.searchBarController = searchBarController;
 
+        this.guessViewModel = guessViewModel;
+        this.guessController = guessController;
+        this.skipController = skipController;
+
         searchBarViewModel.addPropertyChangeListener(this);
+        guessViewModel.addPropertyChangeListener(this);
 
         this.setTitle("Game View");
         this.setSize(600, 800);
@@ -151,8 +164,8 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
         skipButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // TODO: add logic for skipButton here
-                // make sure to update guess label
+                GuessState currentState = guessViewModel.getState();
+                skipController.execute(currentState.getCurrentSong(), currentState.getGuesses(), currentState.getMaxGuesses());                // make sure to update guess label
             }
         });
 
@@ -165,8 +178,15 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
         submitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // TODO: add logic for submitButton here
-                // make sure to update guess label
+                GuessState currentState = guessViewModel.getState();
+                String guess = (String)resultList.getSelectedValue();
+                currentState.setGuess(guess);
+                int i = currentState.getGuesses()-1;
+                guessLabels[i] = new JLabel(guess);
+                guessLabels[i].setFont(resultFont);
+                guessLabels[i].setForeground(Color.BLACK);
+
+                guessController.execute(currentState.getCurrentSong(), guess, currentState.getGuesses(), currentState.getMaxGuesses());
             }
         });
 

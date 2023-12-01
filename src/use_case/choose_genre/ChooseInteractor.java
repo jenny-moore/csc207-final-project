@@ -1,6 +1,5 @@
 package use_case.choose_genre;
 
-import data_access.GameDataAccess;
 import entity.Game;
 import entity.Track;
 
@@ -28,7 +27,7 @@ public class ChooseInteractor implements ChooseInputBoundary{
         try{
             Track track = game.generateTrack(genre);
             outputData.addTrack(track);
-            gameDataAccess.getCurgame().setCurTrack(track);
+            gameDataAccess.getCurrgame().setCurTrack(track);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
