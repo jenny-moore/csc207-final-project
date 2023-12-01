@@ -171,8 +171,8 @@ public class GameView extends JFrame implements PropertyChangeListener {
 
         playButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // TODO: add logic for playButton here
-                // make sure to update guess label
+                playAgainController.execute();
+
             }
         });
 
