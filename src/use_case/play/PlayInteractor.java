@@ -135,6 +135,7 @@ class PlayerThread extends Thread{
     public void run(){
         try{
             Thread.sleep(100);
+            System.out.println("is the play");
             player.play(700, Integer.MAX_VALUE);
         } catch (JavaLayerException | InterruptedException e) {
             throw new RuntimeException(e);

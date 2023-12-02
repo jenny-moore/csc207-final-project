@@ -15,7 +15,8 @@ public class SongDataAccessObject {
                 System.out.println("getsongfile " + curSong[0]);
                 System.out.println("getsongfile " + title);
                 if (curSong[0].equals(title)){
-                    return curSong[1];
+                    System.out.println(curSong[1]);
+                    return "./Songs/" + curSong[1].strip();
                 }
             }
         } catch (IOException e) {
