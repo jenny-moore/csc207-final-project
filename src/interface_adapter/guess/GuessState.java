@@ -1,8 +1,10 @@
 package interface_adapter.guess;
 
+import entity.Track;
+
 public class GuessState {
     private String guess;
-    private String currentSong;
+    private Track currentSong;
     private int guesses;
     private final int maxGuesses;
 
@@ -13,7 +15,7 @@ public class GuessState {
         this.guess = guess;
     }
 
-    public void setCurrentSong(String currentSong) {
+    public void setCurrentSong(Track currentSong) {
         this.currentSong = currentSong;
     }
 
@@ -22,7 +24,7 @@ public class GuessState {
     }
 
     public String getGuess(){return guess;}
-    public String getCurrentSong(){return currentSong;}
+    public Track getCurrentSong(){return currentSong;}
     public int getGuesses(){return guesses;}
     public int getMaxGuesses(){return maxGuesses;}
 
