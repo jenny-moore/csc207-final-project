@@ -6,6 +6,8 @@ import data_access.SpotifyPlaylistDataAccessObject;
 import data_access.player_data.PlayerDataAccess;
 import entity.Game;
 import interface_adapter.PlaySong.PlayController;
+import interface_adapter.PlaySong.PlayPresenter;
+import interface_adapter.PlaySong.PlayViewModel;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.choose_genre.ChooseController;
 import interface_adapter.choose_genre.ChoosePresenter;
@@ -31,6 +33,7 @@ import use_case.leaderboard.LeaderboardInteractor;
 import use_case.leaderboard.LeaderboardOutputBoundary;
 import use_case.leaderboard.LeaderboardOutputData;
 import use_case.play.PlayInteractor;
+import use_case.play.PlayOutputBoundary;
 import use_case.play_again.PlayAgainInputBoundary;
 import use_case.play_again.PlayAgainInteractor;
 import use_case.play_again.PlayAgainOutputBoundary;
@@ -60,6 +63,7 @@ public class Main {
         LeaderboardViewModel leaderboardViewModel = new LeaderboardViewModel();
         GuessViewModel guessViewModel = new GuessViewModel();
         SearchBarViewModel searchBarViewModel = new SearchBarViewModel();
+        PlayViewModel playViewModel = new PlayViewModel();
 
         SpotifyPlaylistDataAccessObject spotifyPlaylistDataAccessObject = new SpotifyPlaylistDataAccessObject();
 
@@ -72,12 +76,13 @@ public class Main {
 
         SearchBarDataAccessInterface searchBarDataAccessInterface = new SearchQueryDataAccessObject();
         SearchBarOutputBoundary searchBarOutputBoundary = new SearchBarPresenter(searchBarViewModel);
+        PlayOutputBoundary playOutputBoundary = new PlayPresenter(playViewModel);
         SearchBarInteractor searchBarInteractor = new SearchBarInteractor(searchBarDataAccessInterface, searchBarOutputBoundary);
         SearchBarController searchBarController = new SearchBarController(searchBarInteractor);
         GuessDataAccessInterface guessDataAccessInterface = new PlayerDataAccess(new int[]{6000, 5000, 4000, 3000, 2000, 1000});
         GuessOutputBoundary guessOutputBoundary = new GuessPresenter(viewManagerModel, guessViewModel, leaderboardViewModel);
         GuessInteractor guessInteractor = new GuessInteractor(guessDataAccessInterface, guessOutputBoundary);
-        PlayInteractor playInteractor = new PlayInteractor();
+        PlayInteractor playInteractor = new PlayInteractor(playOutputBoundary);
         GuessController guessController = new GuessController(guessInteractor);
         SkipInteractor skipInteractor = new SkipInteractor(guessDataAccessInterface, guessOutputBoundary);
         SkipController skipController = new SkipController(skipInteractor);

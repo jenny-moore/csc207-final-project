@@ -24,10 +24,14 @@ import javax.swing.JOptionPane;
 
 public class PlayInteractor implements PlayInputBoundary{
     final Track track = null;
+    private final PlayOutputBoundary playPresenter;
 
     private AudioDevice device;
     private FloatControl volControl;
 
+    public PlayInteractor(PlayOutputBoundary playPresenter){
+        this.playPresenter = playPresenter;
+    }
     @Override
     public void execute(PlayInputData playInputData) {
 
@@ -55,7 +59,7 @@ public class PlayInteractor implements PlayInputBoundary{
                 }
             });
 
-
+            playPresenter.prepareSuccessView(new PlayOutputData(false, playInputData.getTryNumber()));
             new PlayerThread(player).start();
             int millis = playInputData.getTryNumber() * 3000;
             Thread.sleep(millis);
@@ -83,10 +87,12 @@ public class PlayInteractor implements PlayInputBoundary{
 
         } catch (IOException e){
             System.out.println("IOException");
+            playPresenter.prepareFailView();
         } catch (JavaLayerException e) {
             throw new RuntimeException(e);
         } catch (InterruptedException e) {
             System.out.println("InterruptedException");
+            playPresenter.prepareFailView();
         }
 
     }

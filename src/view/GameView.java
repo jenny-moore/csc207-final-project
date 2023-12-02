@@ -173,8 +173,9 @@ public class GameView extends JPanel implements PropertyChangeListener {
 
         playButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
+                GuessState currentState = guessViewModel.getState();
                 // make sure to update guess label
+
 
             }
         });
