@@ -3,6 +3,7 @@ package view;
 import entity.Track;
 import interface_adapter.PlaySong.PlayController;
 import interface_adapter.choose_genre.ChooseState;
+import interface_adapter.choose_genre.ChooseViewModel;
 import interface_adapter.guess.GuessController;
 import interface_adapter.guess.GuessState;
 import interface_adapter.guess.GuessViewModel;
@@ -31,18 +32,20 @@ public class GameView extends JPanel implements PropertyChangeListener {
     private SearchBarController searchBarController;
     private GuessViewModel guessViewModel;
     private GuessController guessController;
+    private ChooseViewModel chooseViewModel;
     private SkipController skipController;
     private JPanel centerPanel; // Panel to hold both resultList and guessList
     private JPanel guessPanel; // Panel to hold guess rectangles
     private JPanel[] guessRectangles; // Array of panels for each guess
     private JLabel[] guessLabels; // Array of labels for each guess
 
-    public GameView(SearchBarViewModel searchBarViewModel, SearchBarController searchBarController, GuessViewModel guessViewModel, GuessController guessController, SkipController skipController, PlayController playController) {
+    public GameView(SearchBarViewModel searchBarViewModel, SearchBarController searchBarController, GuessViewModel guessViewModel, GuessController guessController, SkipController skipController, ChooseViewModel chooseViewModel, PlayController playController) {
         this.searchBarViewModel = searchBarViewModel;
         this.searchBarController = searchBarController;
 
         this.guessViewModel = guessViewModel;
         this.guessController = guessController;
+        this.chooseViewModel = chooseViewModel;
         this.skipController = skipController;
 
         searchBarViewModel.addPropertyChangeListener(this);
@@ -173,10 +176,14 @@ public class GameView extends JPanel implements PropertyChangeListener {
 
         playButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                GuessState currentState = guessViewModel.getState();
+                GuessState currentGuessState = guessViewModel.getState();
                 // make sure to update guess label
-                if(currentState.getGuesses()<7){
-                    playController.execute(currentState.getCurrentSong(), currentState.getGuesses());
+
+                if(currentGuessState.getGuesses()<6){
+                    ChooseState currentChooseState = chooseViewModel.getState();
+                    System.out.println(currentChooseState.getTrack().getTitle());
+                    System.out.println(currentChooseState.getTrack().getAudioFile());
+                    playController.execute(currentChooseState.getTrack(), currentGuessState.getGuesses());
                 }
 
             }

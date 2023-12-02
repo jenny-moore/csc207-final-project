@@ -22,6 +22,7 @@ public class SpotifyPlaylistDataAccessObject implements ChooseDataAccessInterfac
     private final String CLIENT_ID = System.getenv("CLIENT_ID");
 
     private final String CLIENT_SECRET = System.getenv("CLIENT_SECRET");
+    private final SongDataAccessObject songDataAccessObject = new SongDataAccessObject();
 
     public String getApiToken() {
         OkHttpClient client = new OkHttpClient();
@@ -90,7 +91,8 @@ public class SpotifyPlaylistDataAccessObject implements ChooseDataAccessInterfac
                         String newName = artistsArray.getJSONObject(j).getString("name");
                         artistName.append(", ").append(newName);
                     }
-                    tracks.add(trackFactory.create(artistName.toString(), trackName, spotifyId, null));
+                    System.out.println("spotifyplaylistdata" + songDataAccessObject.getSongFile(trackName));
+                    tracks.add(trackFactory.create(artistName.toString(), trackName, spotifyId, songDataAccessObject.getSongFile(trackName)));
                 }
                 game.addPlaylist(genre, tracks.toArray(new Track[tracks.size()]));
             } else {

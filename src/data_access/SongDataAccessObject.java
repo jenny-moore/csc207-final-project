@@ -12,6 +12,8 @@ public class SongDataAccessObject {
             String row;
             while ((row = reader.readLine()) != null) {
                 String[] curSong = row.split(",");
+                System.out.println("getsongfile " + curSong[0]);
+                System.out.println("getsongfile " + title);
                 if (curSong[0].equals(title)){
                     return curSong[1];
                 }

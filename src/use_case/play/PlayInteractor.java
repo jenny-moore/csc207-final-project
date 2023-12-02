@@ -1,5 +1,6 @@
 package use_case.play;
 
+import entity.Game;
 import entity.Track;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.AudioDevice;
@@ -25,9 +26,11 @@ import javax.swing.JOptionPane;
 public class PlayInteractor implements PlayInputBoundary{
     final Track track = null;
     private final PlayOutputBoundary playPresenter;
+    private Game game = new Game();
 
     private AudioDevice device;
     private FloatControl volControl;
+
 
     public PlayInteractor(PlayOutputBoundary playPresenter){
         this.playPresenter = playPresenter;

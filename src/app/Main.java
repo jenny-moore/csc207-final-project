@@ -87,7 +87,7 @@ public class Main {
         SkipInteractor skipInteractor = new SkipInteractor(guessDataAccessInterface, guessOutputBoundary);
         SkipController skipController = new SkipController(skipInteractor);
         PlayController playController = new PlayController(playInteractor);
-        GameView gameView = new GameView(searchBarViewModel, searchBarController, guessViewModel, guessController, skipController, playController);
+        GameView gameView = new GameView(searchBarViewModel, searchBarController, guessViewModel, guessController, skipController, chooseViewModel, playController);
         views.add(gameView, gameView.viewName);
 
 
