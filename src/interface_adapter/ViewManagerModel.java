@@ -15,6 +15,7 @@ public class ViewManagerModel {
 
     public void setActiveView(String activeView) {
         this.activeViewName = activeView;
+        System.out.println(activeViewName);
     }
 
     public void firePropertyChanged() {

@@ -1,5 +1,6 @@
 package app;
 
+import data_access.GameDataAccess;
 import data_access.LeaderboardDataAccessObject;
 import data_access.SearchQueryDataAccessObject;
 import data_access.SpotifyPlaylistDataAccessObject;
@@ -66,12 +67,12 @@ public class Main {
         PlayViewModel playViewModel = new PlayViewModel();
 
         SpotifyPlaylistDataAccessObject spotifyPlaylistDataAccessObject = new SpotifyPlaylistDataAccessObject();
-
+        GameDataAccess gameDataAccess = new GameDataAccess();
         HomeView homeView = HomeViewFactory.create(viewManagerModel, chooseViewModel);
         views.add(homeView, homeView.viewName);
 
 
-        ChooseView chooseView = ChooseViewFactory.create(viewManagerModel, chooseViewModel, searchBarViewModel, spotifyPlaylistDataAccessObject);
+        ChooseView chooseView = ChooseViewFactory.create(viewManagerModel, chooseViewModel, searchBarViewModel, spotifyPlaylistDataAccessObject, gameDataAccess);
         views.add(chooseView, chooseView.viewName);
 
         SearchBarDataAccessInterface searchBarDataAccessInterface = new SearchQueryDataAccessObject();

@@ -1,5 +1,6 @@
 package app;
 
+import data_access.GameDataAccess;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.choose_genre.ChooseController;
 import interface_adapter.choose_genre.ChoosePresenter;
@@ -15,15 +16,15 @@ public class ChooseViewFactory {
     private ChooseViewFactory(){}
 
     public static ChooseView create(
-            ViewManagerModel viewManagerModel, ChooseViewModel chooseViewModel, SearchBarViewModel searchBarViewModel, ChooseDataAccessInterface chooseDataAccessInterface
+            ViewManagerModel viewManagerModel, ChooseViewModel chooseViewModel, SearchBarViewModel searchBarViewModel, ChooseDataAccessInterface chooseDataAccessInterface, GameDataAccess gameDataAccess
     ){
-        ChooseController chooseController = createChooseUseCase(viewManagerModel, chooseViewModel, searchBarViewModel, chooseDataAccessInterface);
+        ChooseController chooseController = createChooseUseCase(viewManagerModel, chooseViewModel, searchBarViewModel, chooseDataAccessInterface, gameDataAccess);
         return new ChooseView(chooseController, chooseViewModel);
     }
 
-    private static ChooseController createChooseUseCase(ViewManagerModel viewManagerModel, ChooseViewModel chooseViewModel, SearchBarViewModel searchBarViewModel, ChooseDataAccessInterface spotifyPlaylistDataAccessObject) {
+    private static ChooseController createChooseUseCase(ViewManagerModel viewManagerModel, ChooseViewModel chooseViewModel, SearchBarViewModel searchBarViewModel, ChooseDataAccessInterface spotifyPlaylistDataAccessObject, GameDataAccess gameDataAccess) {
         ChooseOutputBoundary choosePresenter = new ChoosePresenter(chooseViewModel, searchBarViewModel, viewManagerModel);
-        ChooseInteractor chooseInteractor = new ChooseInteractor(choosePresenter, spotifyPlaylistDataAccessObject);
+        ChooseInteractor chooseInteractor = new ChooseInteractor(choosePresenter, spotifyPlaylistDataAccessObject, gameDataAccess);
         return new ChooseController(chooseInteractor);
     }
 
