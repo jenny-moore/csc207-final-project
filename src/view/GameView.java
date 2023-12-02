@@ -181,9 +181,7 @@ public class GameView extends JPanel implements PropertyChangeListener {
 
                 if(currentGuessState.getGuesses()<6){
                     ChooseState currentChooseState = chooseViewModel.getState();
-                    currentGuessState.setCurrentSong(currentChooseState.getTrack());
                     System.out.println(currentChooseState.getTrack().getTitle());
-                    System.out.println(currentChooseState.getTrack().getAudioFile());
                     playController.execute(currentChooseState.getTrack(), currentGuessState.getGuesses());
                 }
 

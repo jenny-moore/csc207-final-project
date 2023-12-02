@@ -5,7 +5,7 @@ import entity.Track;
 public class GuessState {
     private String guess;
     private Track currentSong;
-    private int guesses;
+    private int guesses = 1;
     private final int maxGuesses;
 
     public GuessState(int maxGuesses) {

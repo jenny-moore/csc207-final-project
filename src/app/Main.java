@@ -72,7 +72,7 @@ public class Main {
         views.add(homeView, homeView.viewName);
 
 
-        ChooseView chooseView = ChooseViewFactory.create(viewManagerModel, chooseViewModel, searchBarViewModel, spotifyPlaylistDataAccessObject, gameDataAccess);
+        ChooseView chooseView = ChooseViewFactory.create(viewManagerModel, chooseViewModel, searchBarViewModel, spotifyPlaylistDataAccessObject, gameDataAccess, guessViewModel);
         views.add(chooseView, chooseView.viewName);
 
         SearchBarDataAccessInterface searchBarDataAccessInterface = new SearchQueryDataAccessObject();
