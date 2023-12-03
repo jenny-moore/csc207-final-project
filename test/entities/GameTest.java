@@ -80,7 +80,7 @@ public class GameTest {
         genres = game.getGenres();
         assertEquals(2, genres.length);
         assertEquals("genre", genres[0]);
-        assertEquals("other", genres[0]);
+        assertEquals("other", genres[1]);
         assertTrue(game.genreInGame("genre"));
         assertTrue(game.genreInGame("other"));
         assertFalse(game.genreInGame("random"));
