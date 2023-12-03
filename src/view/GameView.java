@@ -11,6 +11,7 @@ import interface_adapter.search_bar.SearchBarController;
 import interface_adapter.search_bar.SearchBarState;
 import interface_adapter.search_bar.SearchBarViewModel;
 import interface_adapter.skip.SkipController;
+import javazoom.jl.decoder.JavaLayerException;
 
 import java.util.stream.Collectors;
 import java.util.List;
@@ -121,6 +122,9 @@ public class GameView extends JPanel implements PropertyChangeListener {
         centerPanel.add(new Box.Filler(minSize, prefSize, maxSize));
 
         // TODO: Include progress bar (or at least something to track progression of song / number of guesses)
+        JProgressBar progressBar = new JProgressBar(0, 1);
+        progressBar.setForeground(Color.GREEN);
+        centerPanel.add(progressBar);
 
         playButton = new JButton("Play");
         skipButton = new JButton("Skip");
@@ -182,7 +186,13 @@ public class GameView extends JPanel implements PropertyChangeListener {
                 if(currentGuessState.getGuesses()<6){
                     ChooseState currentChooseState = chooseViewModel.getState();
                     System.out.println(currentChooseState.getTrack().getTitle());
+                    progressBar.setMinimum(0);
+                    progressBar.setMaximum(currentGuessState.getGuesses()*300);
+                    Thread progressThread = new ProgressThread(progressBar);
+                    progressThread.start();
+
                     playController.execute(currentChooseState.getTrack(), currentGuessState.getGuesses());
+
                 }
 
             }
@@ -208,7 +218,7 @@ public class GameView extends JPanel implements PropertyChangeListener {
         // Now request focus
         searchTextField.requestFocusInWindow();
 
-    }
+}
 
     private void onSearch(String query) {
         // set it as a state
@@ -242,4 +252,25 @@ public class GameView extends JPanel implements PropertyChangeListener {
     }
 
 
+}
+class ProgressThread extends Thread{
+    private JProgressBar progressBar;
+    public ProgressThread(JProgressBar progressBar){
+        this.progressBar = progressBar;
+    }
+    public void run(){
+        try{
+            int j = 0;
+            while (j <= progressBar.getMaximum()) {
+                j += 10;
+                // fill the menu bar
+                progressBar.setValue(j);
+                Thread.sleep(100);
+            }
+            progressBar.setValue(0);
+
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
