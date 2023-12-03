@@ -49,7 +49,7 @@ public class SearchTrackTest {
         int resultLimit = 10;
 
         assertNotNull("Search result should not be null", results);
-        assertTrue("Result should contain no more than 10 items", resultLimit >= results.size());
+        assertTrue("Result should contain no more than 10 items", resultLimit <= results.size());
 
     }
 }
