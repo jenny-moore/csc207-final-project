@@ -2,18 +2,21 @@ package data_access.player_data;
 
 import entity.PlayerData;
 import use_case.guess.GuessDataAccessInterface;
+import use_case.leaderboard.LeaderboardDataAccessInterface;
 
 import java.io.*;
 import java.util.ArrayList;
 
-public class PlayerDataAccess implements GuessDataAccessInterface {
+public class PlayerDataAccess implements GuessDataAccessInterface, LeaderboardDataAccessInterface {
     final private String[] data;
     final private int[] scores;
     final private PlayerData playerData = new PlayerData();
-    public PlayerDataAccess(int[] scores) {
+    final private String fname;
+    public PlayerDataAccess(int[] scores, String fname) {
         this.scores = scores;
+        this.fname = fname;
         ArrayList<String> data = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader("PlayerData.csv"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(fname))) {
             data.add(reader.readLine());
 
             String row;
@@ -33,7 +36,7 @@ public class PlayerDataAccess implements GuessDataAccessInterface {
         this.data[0] = String.valueOf(totalScore);
         BufferedWriter writer;
         try {
-            writer = new BufferedWriter(new FileWriter("PlayerData.csv"));
+            writer = new BufferedWriter(new FileWriter(fname));
 
             for (String item : data) {
                 writer.write(item);
@@ -46,4 +49,20 @@ public class PlayerDataAccess implements GuessDataAccessInterface {
         }
     }
 
+    @Override
+    public int[] getData() {
+        int[] data = {0,0,0,0,0,0,0,0};
+        try (BufferedReader reader = new BufferedReader(new FileReader(fname))) {
+            data[0] = Integer.parseInt(reader.readLine());
+
+            String row;
+            while ((row = reader.readLine()) != null) {
+                int i = Integer.parseInt(row);
+                data[i+1] = data[i+1] + 1;
+            }
+            return data;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

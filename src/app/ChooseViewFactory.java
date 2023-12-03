@@ -16,9 +16,7 @@ import view.ViewManager;
 public class ChooseViewFactory {
     private ChooseViewFactory(){}
 
-    public static ChooseView create(
-            ViewManagerModel viewManagerModel, ChooseViewModel chooseViewModel, SearchBarViewModel searchBarViewModel, ChooseDataAccessInterface chooseDataAccessInterface, GameDataAccess gameDataAccess, GuessViewModel guessViewModel
-    ){
+    public static ChooseView create(ViewManagerModel viewManagerModel, ChooseViewModel chooseViewModel, SearchBarViewModel searchBarViewModel, ChooseDataAccessInterface chooseDataAccessInterface, GameDataAccess gameDataAccess, GuessViewModel guessViewModel){
         ChooseController chooseController = createChooseUseCase(viewManagerModel, chooseViewModel, searchBarViewModel, chooseDataAccessInterface, gameDataAccess, guessViewModel);
         return new ChooseView(chooseController, chooseViewModel);
     }
