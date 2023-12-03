@@ -30,7 +30,7 @@ public class GameTest {
             String audioLink = String.valueOf(random);
             random = rand.nextInt(2000);
             String audioFile = String.valueOf(random);
-            tracks[i] = new Track(artists[i], titles[i], spotifyID, audioLink, audioFile);
+            tracks[i] = new Track(artists[i], titles[i], spotifyID, audioFile);
         }
     }
     @Test
@@ -68,7 +68,7 @@ public class GameTest {
             String audioLink = String.valueOf(random);
             random = rand.nextInt(2000);
             String audioFile = String.valueOf(random);
-            tracks2[i] = new Track(artists[i], titles[i], spotifyID, audioLink, audioFile);
+            tracks2[i] = new Track(artists[i], titles[i], spotifyID, audioFile);
         }
         game.addPlaylist("genre", tracks);
         String[] genres = game.getGenres();

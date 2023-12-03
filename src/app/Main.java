@@ -45,6 +45,7 @@ public class Main {
         views.add(chooseView, chooseView.viewName);
 
         GameView gameView = GameUseCaseFactory.create(searchBarViewModel, guessViewModel, leaderboardViewModel, chooseViewModel, playViewModel, viewManagerModel);
+        views.add(gameView, gameView.viewName);
 
         LeaderboardDataAccessInterface leaderboardDataAccessInterface = new LeaderboardDataAccessObject();
         EndView endView = EndViewFactory.create(viewManagerModel, leaderboardViewModel, chooseViewModel, leaderboardDataAccessInterface);
