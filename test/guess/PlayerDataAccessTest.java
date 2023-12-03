@@ -13,6 +13,6 @@ public class PlayerDataAccessTest {
     }
     @Test
     public void saveGame(){
-
+        playerDataAccess.saveGame(3);
     }
 }
