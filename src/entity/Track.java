@@ -22,29 +22,15 @@ public class Track {
         return artist;
     }
 
-    // Setter for artist
-    public void setArtist(String artist) {
-        this.artist = artist;
-    }
-
     // Getter for title
     public String getTitle() {
         return title;
     }
 
-    // Setter for title
-    public void setTitle(String title) {
-        this.title = title;
-    }
 
     // Getter for spotifyID
     public String getSpotifyID() {
         return spotifyID;
-    }
-
-    // Setter for spotifyID
-    public void setSpotifyID(String spotifyID) {
-        this.spotifyID = spotifyID;
     }
 
     public String getAudioFile() { return audioFile;}

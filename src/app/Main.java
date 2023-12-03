@@ -64,32 +64,14 @@ public class Main {
         LeaderboardViewModel leaderboardViewModel = new LeaderboardViewModel();
         GuessViewModel guessViewModel = new GuessViewModel();
         SearchBarViewModel searchBarViewModel = new SearchBarViewModel();
-        PlayViewModel playViewModel = new PlayViewModel();
 
-        SpotifyPlaylistDataAccessObject spotifyPlaylistDataAccessObject = new SpotifyPlaylistDataAccessObject();
-        GameDataAccess gameDataAccess = new GameDataAccess();
+
         HomeView homeView = HomeViewFactory.create(viewManagerModel, chooseViewModel);
         views.add(homeView, homeView.viewName);
 
 
-        ChooseView chooseView = ChooseViewFactory.create(viewManagerModel, chooseViewModel, searchBarViewModel, spotifyPlaylistDataAccessObject, gameDataAccess, guessViewModel);
+        ChooseView chooseView = ChooseViewFactory.create(viewManagerModel, chooseViewModel, searchBarViewModel, spotifyPlaylistDataAccessObject);
         views.add(chooseView, chooseView.viewName);
-
-        SearchBarDataAccessInterface searchBarDataAccessInterface = new SearchQueryDataAccessObject();
-        SearchBarOutputBoundary searchBarOutputBoundary = new SearchBarPresenter(searchBarViewModel);
-        PlayOutputBoundary playOutputBoundary = new PlayPresenter(playViewModel);
-        SearchBarInteractor searchBarInteractor = new SearchBarInteractor(searchBarDataAccessInterface, searchBarOutputBoundary);
-        SearchBarController searchBarController = new SearchBarController(searchBarInteractor);
-        GuessDataAccessInterface guessDataAccessInterface = new PlayerDataAccess(new int[]{6000, 5000, 4000, 3000, 2000, 1000});
-        GuessOutputBoundary guessOutputBoundary = new GuessPresenter(viewManagerModel, guessViewModel, leaderboardViewModel);
-        GuessInteractor guessInteractor = new GuessInteractor(guessDataAccessInterface, guessOutputBoundary);
-        PlayInteractor playInteractor = new PlayInteractor(playOutputBoundary);
-        GuessController guessController = new GuessController(guessInteractor);
-        SkipInteractor skipInteractor = new SkipInteractor(guessDataAccessInterface, guessOutputBoundary);
-        SkipController skipController = new SkipController(skipInteractor);
-        PlayController playController = new PlayController(playInteractor);
-        GameView gameView = new GameView(searchBarViewModel, searchBarController, guessViewModel, guessController, skipController, chooseViewModel, playController);
-        views.add(gameView, gameView.viewName);
 
 
         LeaderboardDataAccessInterface leaderboardDataAccessInterface = new LeaderboardDataAccessObject();

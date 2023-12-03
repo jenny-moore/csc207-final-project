@@ -26,7 +26,7 @@ public class ChooseView extends JPanel implements ActionListener, PropertyChange
         chooseViewModel.addPropertyChangeListener(this);
 
         this.setSize(600,800);
-        this.setLayout(null);
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBackground(Color.BLACK);
 
         JLabel title = new JLabel(ChooseViewModel.TITLE_LABEL);
@@ -54,13 +54,13 @@ public class ChooseView extends JPanel implements ActionListener, PropertyChange
 
         choose.addActionListener(this);
         genres.addActionListener(this);
+        this.add(buttons);
     }
 
     @Override
     public void actionPerformed(ActionEvent evt) {
         if (evt.getSource().equals(choose)) {
             ChooseState currentState = chooseViewModel.getState();
-
             chooseController.execute(currentState.getGenre());
         } else if (evt.getSource().equals(genres)){
             JComboBox cb = (JComboBox)evt.getSource();
