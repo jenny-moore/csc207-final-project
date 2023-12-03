@@ -16,10 +16,14 @@ public class Game {
     }
 
 
-    public Track generateTrack(String genre){
+    public Track generateTrack(String genre) throws Exception {
         Track[] playlist = songCatalog.get(genre);
-        Random rand = new Random();
-        return playlist[rand.nextInt(playlist.length)];
+        if (playlist != null) {
+            Random rand = new Random();
+            return playlist[rand.nextInt(playlist.length)];
+        } else {
+            throw new Exception("Genre playlist not added yet.");
+        }
     }
     public boolean genreInGame(String genre){
         for (String key : songCatalog.keySet() ) {
