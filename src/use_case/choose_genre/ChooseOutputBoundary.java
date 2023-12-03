@@ -4,5 +4,5 @@ public interface ChooseOutputBoundary {
 
     void prepareSuccessView(ChooseOutputData outputData);
 
-    void prepareFailView(String error);
+    void prepareFailView(String s);
 }

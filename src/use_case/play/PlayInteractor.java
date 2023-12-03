@@ -1,5 +1,6 @@
 package use_case.play;
 
+import entity.Game;
 import entity.Track;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.AudioDevice;
@@ -24,13 +25,15 @@ import javax.swing.JOptionPane;
 
 public class PlayInteractor implements PlayInputBoundary{
     final Track track = null;
-    final PlayDataAccessInterface dataAccess;
+    private final PlayOutputBoundary playPresenter;
+    private Game game = new Game();
 
     private AudioDevice device;
     private FloatControl volControl;
 
-    public PlayInteractor(PlayDataAccessInterface dataAccess){
-        this.dataAccess = dataAccess;
+
+    public PlayInteractor(PlayOutputBoundary playPresenter){
+        this.playPresenter = playPresenter;
     }
     @Override
     public void execute(PlayInputData playInputData) {
@@ -59,7 +62,7 @@ public class PlayInteractor implements PlayInputBoundary{
                 }
             });
 
-
+            playPresenter.prepareSuccessView(new PlayOutputData(false, playInputData.getTryNumber()));
             new PlayerThread(player).start();
             int millis = playInputData.getTryNumber() * 3000;
             Thread.sleep(millis);
@@ -87,10 +90,12 @@ public class PlayInteractor implements PlayInputBoundary{
 
         } catch (IOException e){
             System.out.println("IOException");
+            playPresenter.prepareFailView();
         } catch (JavaLayerException e) {
             throw new RuntimeException(e);
         } catch (InterruptedException e) {
             System.out.println("InterruptedException");
+            playPresenter.prepareFailView();
         }
 
     }
@@ -130,6 +135,7 @@ class PlayerThread extends Thread{
     public void run(){
         try{
             Thread.sleep(100);
+            System.out.println("is the play");
             player.play(700, Integer.MAX_VALUE);
         } catch (JavaLayerException | InterruptedException e) {
             throw new RuntimeException(e);

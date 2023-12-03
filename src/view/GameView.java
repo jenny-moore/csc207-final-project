@@ -1,7 +1,9 @@
 package view;
 
 import entity.Track;
+import interface_adapter.PlaySong.PlayController;
 import interface_adapter.choose_genre.ChooseState;
+import interface_adapter.choose_genre.ChooseViewModel;
 import interface_adapter.guess.GuessController;
 import interface_adapter.guess.GuessState;
 import interface_adapter.guess.GuessViewModel;
@@ -9,6 +11,7 @@ import interface_adapter.search_bar.SearchBarController;
 import interface_adapter.search_bar.SearchBarState;
 import interface_adapter.search_bar.SearchBarViewModel;
 import interface_adapter.skip.SkipController;
+import javazoom.jl.decoder.JavaLayerException;
 
 import java.util.stream.Collectors;
 import java.util.List;
@@ -19,7 +22,10 @@ import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class GameView extends JFrame implements PropertyChangeListener {
+public class GameView extends JPanel implements PropertyChangeListener {
+
+    public final String viewName = "game";
+
     private JTextField searchTextField; // Text field for user to enter search query
     private JList<String> resultList; // List to store all search results
     private JButton playButton, submitButton, skipButton; // Buttons for user to play, submit guess, and skip
@@ -27,27 +33,27 @@ public class GameView extends JFrame implements PropertyChangeListener {
     private SearchBarController searchBarController;
     private GuessViewModel guessViewModel;
     private GuessController guessController;
+    private ChooseViewModel chooseViewModel;
     private SkipController skipController;
     private JPanel centerPanel; // Panel to hold both resultList and guessList
     private JPanel guessPanel; // Panel to hold guess rectangles
     private JPanel[] guessRectangles; // Array of panels for each guess
     private JLabel[] guessLabels; // Array of labels for each guess
 
-    public GameView(SearchBarViewModel searchBarViewModel, SearchBarController searchBarController, GuessViewModel guessViewModel, GuessController guessController, SkipController skipController) {
+    public GameView(SearchBarViewModel searchBarViewModel, SearchBarController searchBarController, GuessViewModel guessViewModel, GuessController guessController, SkipController skipController, ChooseViewModel chooseViewModel, PlayController playController) {
         this.searchBarViewModel = searchBarViewModel;
         this.searchBarController = searchBarController;
 
         this.guessViewModel = guessViewModel;
         this.guessController = guessController;
+        this.chooseViewModel = chooseViewModel;
         this.skipController = skipController;
 
         searchBarViewModel.addPropertyChangeListener(this);
         guessViewModel.addPropertyChangeListener(this);
 
-        this.setTitle("Game View");
         this.setSize(600, 800);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.getContentPane().setBackground(Color.BLACK);
+        this.setBackground(Color.BLACK);
         Font font = new Font("SansSerif", Font.PLAIN, 16); // Choose the desired font and size
         this.setFont(font);
 
@@ -116,6 +122,9 @@ public class GameView extends JFrame implements PropertyChangeListener {
         centerPanel.add(new Box.Filler(minSize, prefSize, maxSize));
 
         // TODO: Include progress bar (or at least something to track progression of song / number of guesses)
+        JProgressBar progressBar = new JProgressBar(0, 1);
+        progressBar.setForeground(Color.GREEN);
+        centerPanel.add(progressBar);
 
         playButton = new JButton("Play");
         skipButton = new JButton("Skip");
@@ -165,14 +174,27 @@ public class GameView extends JFrame implements PropertyChangeListener {
         skipButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 GuessState currentState = guessViewModel.getState();
-                skipController.execute(currentState.getCurrentSong(), currentState.getGuesses(), currentState.getMaxGuesses());                // make sure to update guess label
+                skipController.execute(currentState.getCurrentSong().getTitle(), currentState.getGuesses(), currentState.getMaxGuesses());                // make sure to update guess label
             }
         });
 
         playButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // TODO: add logic for playButton here
+                GuessState currentGuessState = guessViewModel.getState();
                 // make sure to update guess label
+
+                if(currentGuessState.getGuesses()<6){
+                    ChooseState currentChooseState = chooseViewModel.getState();
+                    System.out.println(currentChooseState.getTrack().getTitle());
+                    progressBar.setMinimum(0);
+                    progressBar.setMaximum(currentGuessState.getGuesses()*300);
+                    Thread progressThread = new ProgressThread(progressBar);
+                    progressThread.start();
+
+                    playController.execute(currentChooseState.getTrack(), currentGuessState.getGuesses());
+
+                }
+
             }
         });
 
@@ -186,7 +208,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
                 guessLabels[i].setFont(resultFont);
                 guessLabels[i].setForeground(Color.BLACK);
 
-                guessController.execute(currentState.getCurrentSong(), guess, currentState.getGuesses(), currentState.getMaxGuesses());
+                guessController.execute(currentState.getCurrentSong().getTitle(), guess, currentState.getGuesses(), currentState.getMaxGuesses());
             }
         });
 
@@ -196,7 +218,7 @@ public class GameView extends JFrame implements PropertyChangeListener {
         // Now request focus
         searchTextField.requestFocusInWindow();
 
-    }
+}
 
     private void onSearch(String query) {
         // set it as a state
@@ -230,4 +252,25 @@ public class GameView extends JFrame implements PropertyChangeListener {
     }
 
 
+}
+class ProgressThread extends Thread{
+    private JProgressBar progressBar;
+    public ProgressThread(JProgressBar progressBar){
+        this.progressBar = progressBar;
+    }
+    public void run(){
+        try{
+            int j = 0;
+            while (j <= progressBar.getMaximum()) {
+                j += 10;
+                // fill the menu bar
+                progressBar.setValue(j);
+                Thread.sleep(100);
+            }
+            progressBar.setValue(0);
+
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
