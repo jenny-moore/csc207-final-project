@@ -54,7 +54,6 @@ public class ChooseView extends JPanel implements ActionListener, PropertyChange
 
         choose.addActionListener(this);
         genres.addActionListener(this);
-        this.add(buttons);
     }
 
     @Override

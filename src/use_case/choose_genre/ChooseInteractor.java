@@ -34,6 +34,6 @@ public class ChooseInteractor implements ChooseInputBoundary{
             throw new RuntimeException(e);
         }
         genrePresenter.prepareSuccessView(outputData);
-
+        }
     }
 }
