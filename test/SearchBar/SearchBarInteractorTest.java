@@ -50,8 +50,8 @@ public class SearchBarInteractorTest {
 
         // TODO: Need to change initialization after Siqi's pull request is merged
         // Test with two tracks (could do this with any number of tracks)
-        Track track1 = trackFactory.create("Taylor Swift", "Bad Blood", "273dCMFseLcVsoSWx59IoE", null, null);
-        Track track2 = trackFactory.create("Taylor Swift", "Cruel Summer", "1BxfuPKGuaTgP7aM0Bbdwr", null, null);
+        Track track1 = trackFactory.create("Taylor Swift", "Bad Blood", "273dCMFseLcVsoSWx59IoE", null);
+        Track track2 = trackFactory.create("Taylor Swift", "Cruel Summer", "1BxfuPKGuaTgP7aM0Bbdwr", null);
 
         expectedResults.add(track1);
         expectedResults.add(track2);
