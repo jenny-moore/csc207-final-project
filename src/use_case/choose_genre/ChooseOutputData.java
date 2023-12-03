@@ -4,18 +4,18 @@ import entity.Track;
 
 public class ChooseOutputData {
     String genre;
-    String trackName;
-    String trackArtist;
-    String audioLink;
-    String spotifyLink;
+    Track track;
 
     public ChooseOutputData(String genre) {
         this.genre = genre;
     }
 
     public void addTrack(Track track) {
-        trackName = track.getTitle();
-        trackArtist = track.getArtist();
-        spotifyLink = "https://open.spotify.com/track/" + track.getSpotifyID();
+        this.track = track;
     }
+    public Track getTrack(){ return this.track;}
+    public String getGenre(){ return this.genre;}
+    public String getTrackName(){ return this.track.getTitle();}
+    public String getTrackArtist(){ return this.track.getArtist();}
+    public String getAudioLink(){ return this.track.getSpotifyID();}
 }

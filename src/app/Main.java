@@ -1,10 +1,14 @@
 package app;
 
+import data_access.GameDataAccess;
 import data_access.LeaderboardDataAccessObject;
 import data_access.SearchQueryDataAccessObject;
 import data_access.SpotifyPlaylistDataAccessObject;
 import data_access.player_data.PlayerDataAccess;
 import entity.Game;
+import interface_adapter.PlaySong.PlayController;
+import interface_adapter.PlaySong.PlayPresenter;
+import interface_adapter.PlaySong.PlayViewModel;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.choose_genre.ChooseController;
 import interface_adapter.choose_genre.ChoosePresenter;
@@ -29,6 +33,8 @@ import use_case.leaderboard.LeaderboardDataAccessInterface;
 import use_case.leaderboard.LeaderboardInteractor;
 import use_case.leaderboard.LeaderboardOutputBoundary;
 import use_case.leaderboard.LeaderboardOutputData;
+import use_case.play.PlayInteractor;
+import use_case.play.PlayOutputBoundary;
 import use_case.play_again.PlayAgainInputBoundary;
 import use_case.play_again.PlayAgainInteractor;
 import use_case.play_again.PlayAgainOutputBoundary;
@@ -59,7 +65,6 @@ public class Main {
         GuessViewModel guessViewModel = new GuessViewModel();
         SearchBarViewModel searchBarViewModel = new SearchBarViewModel();
 
-        SpotifyPlaylistDataAccessObject spotifyPlaylistDataAccessObject = new SpotifyPlaylistDataAccessObject();
 
         HomeView homeView = HomeViewFactory.create(viewManagerModel, chooseViewModel);
         views.add(homeView, homeView.viewName);
