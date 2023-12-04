@@ -15,15 +15,14 @@ public class SkipInteractorTest {
     private SkipInteractor skipInteractor;
     private MockPlayerDataAccess dataAccess;
     private MockGuessPresenter presenter;
-    @BeforeEach
-    public void init(){
+
+    @Test
+    public void execute() {
         this.dataAccess = new MockPlayerDataAccess();
         this.presenter = new MockGuessPresenter();
         this.skipInteractor = new SkipInteractor(dataAccess, presenter);
         this.guessInputData = new GuessInputData("song", "", 4, 6);
-    }
-    @Test
-    public void execute() {
+
         skipInteractor.execute(guessInputData);
         assertFalse(presenter.gameEnded());
         assertArrayEquals(dataAccess.getGames(), new String[0]);

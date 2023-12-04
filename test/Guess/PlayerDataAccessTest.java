@@ -8,12 +8,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PlayerDataAccessTest {
     private PlayerDataAccess playerDataAccess;
-    @BeforeEach
-    public void init(){
-        this.playerDataAccess = new PlayerDataAccess(new int[]{0,10,8,6,4,2,1}, "EmptyFile.csv");
-    }
     @Test
     public void saveGame(){
+        this.playerDataAccess = new PlayerDataAccess(new int[]{0,10,8,6,4,2,1}, "EmptyFile.csv");
         playerDataAccess.saveGame(3);
         assertTrue(true);
     }
