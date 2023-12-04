@@ -13,7 +13,7 @@ public class GuessInteractor implements GuessInputBoundary {
     public void execute(GuessInputData guessInputData) {
         GuessOutputData outputData = new GuessOutputData();
         if (guessInputData.isCorrect()){
-            playerDataAccessObject.saveGame(guessInputData.getGuesses() + 1);
+            playerDataAccessObject.saveGame(guessInputData.getGuesses());
             outputData.setGuesses(guessInputData.getGuesses() + 1);
             guessPresenter.endGame(outputData);
         }
