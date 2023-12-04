@@ -1,4 +1,4 @@
-package guess;
+package Guess;
 
 import use_case.guess.GuessOutputBoundary;
 import use_case.guess.GuessOutputData;

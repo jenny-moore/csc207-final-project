@@ -1,7 +1,6 @@
-package guess;
+package Guess;
 
 import data_access.player_data.PlayerDataAccess;
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

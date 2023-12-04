@@ -1,27 +1,30 @@
-package guess;
+package Skip;
 
+import Guess.MockGuessPresenter;
+import Guess.MockPlayerDataAccess;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 import use_case.guess.GuessInputData;
-import use_case.guess.GuessInteractor;
+import use_case.skip.SkipInteractor;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
-public class GuessnteractorTest {
+public class SkipInteractorTest {
     private GuessInputData guessInputData;
-    private GuessInteractor guessInteractor;
+    private SkipInteractor skipInteractor;
     private MockPlayerDataAccess dataAccess;
     private MockGuessPresenter presenter;
     @BeforeEach
     public void init(){
         this.dataAccess = new MockPlayerDataAccess();
         this.presenter = new MockGuessPresenter();
-        this.guessInteractor = new GuessInteractor(dataAccess, presenter);
+        this.skipInteractor = new SkipInteractor(dataAccess, presenter);
         this.guessInputData = new GuessInputData("song", "song", 4, 6);
     }
     @Test
     public void execute() {
-        guessInteractor.execute(guessInputData);
+        skipInteractor.execute(guessInputData);
         assertTrue(presenter.gameEnded());
         assertArrayEquals(dataAccess.getGames(), new String[]{"4"});
 
