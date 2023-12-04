@@ -51,6 +51,13 @@ public class Main {
         EndView endView = EndViewFactory.create(viewManagerModel, leaderboardViewModel, chooseViewModel, leaderboardDataAccessInterface);
         views.add(endView, endView.viewName);
 
+        // When "Play Again" button is clicked in EndView, GameView resets state
+        endView.addPropertyChangeListener(evt -> {
+            if ("gameReset".equals(evt.getPropertyName())) {
+                gameView.resetGame();
+            }
+        });
+
 
         application.setSize(600, 800);
         application.setVisible(true);

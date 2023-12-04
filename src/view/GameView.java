@@ -125,16 +125,6 @@ public class GameView extends JPanel implements PropertyChangeListener {
         Dimension maxSize = new Dimension(Short.MAX_VALUE, 150); // Maximum size
         centerPanel.add(new Box.Filler(minSize, prefSize, maxSize));
 
-        // Set up for progress bar
-//        JPanel progressBarPanel = new JPanel();
-//        progressBarPanel.setLayout(new BoxLayout(progressBarPanel, BoxLayout.Y_AXIS));
-//        progressBarPanel.setBackground(Color.BLACK);
-//
-//        // Add progress bar to its panel
-//        JProgressBar progressBar = new JProgressBar(0, 1);
-//        progressBar.setForeground(Color.GREEN);
-//        progressBarPanel.add(progressBar);
-
         playButton = new JButton("Play");
         skipButton = new JButton("Skip");
         submitButton = new JButton("Submit");
@@ -145,8 +135,6 @@ public class GameView extends JPanel implements PropertyChangeListener {
         buttonPanel.add(submitButton);
         buttonPanel.setBackground(Color.BLACK);
         this.add(buttonPanel, BorderLayout.SOUTH);
-        // this.add(progressBarPanel, BorderLayout.AFTER_LAST_LINE); // adds the progress bar panel just below the button panel
-
 
         searchTextField.addKeyListener(
                 new KeyListener() {
@@ -233,7 +221,6 @@ public class GameView extends JPanel implements PropertyChangeListener {
                 }
                 Track song = currentState.getCurrentSong();
                 System.out.println("correct answer: " + song.toString());
-                // song.getArtist() + " - " + song.getTitle()
                 guessController.execute(song.toString(), guess, currentState.getGuesses(), currentState.getMaxGuesses());
             }
         });
@@ -267,6 +254,21 @@ public class GameView extends JPanel implements PropertyChangeListener {
         resultList.setModel(model);
     }
 
+    /* Reset the game once play again is selected from end view */
+    public void resetGame() {
+        resetGuessLabels();
+        resetSearchBar();
+    }
+    public void resetGuessLabels() {
+        for (JLabel label : guessLabels) {
+            label.setText("");
+        }
+    }
+
+    public void resetSearchBar() {
+        searchTextField.setText("");
+        resultList.setModel(new DefaultListModel<>());
+    }
 
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getNewValue() instanceof SearchBarState) {
@@ -275,6 +277,7 @@ public class GameView extends JPanel implements PropertyChangeListener {
             updateSearchResults(tracks);
         }
     }
+
 
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
