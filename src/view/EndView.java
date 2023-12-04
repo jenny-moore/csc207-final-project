@@ -60,6 +60,14 @@ public class EndView extends JPanel implements ActionListener, PropertyChangeLis
         this.add(playAgain);
         this.add(leaderboard);
         this.setVisible(true);
+
+        playAgain.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                playAgainController.execute();
+                firePropertyChange("gameReset", false, true);
+            }
+        });
+
     }
 
     @Override
