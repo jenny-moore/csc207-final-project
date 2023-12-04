@@ -193,11 +193,6 @@ public class GameView extends JPanel implements PropertyChangeListener {
 
                 if (currentGuessState.getGuesses() < 6) {
                     ChooseState currentChooseState = chooseViewModel.getState();
-//                    progressBar.setMinimum(0);
-//                    progressBar.setMaximum(currentGuessState.getGuesses()*300);
-//                    Thread progressThread = new ProgressThread(progressBar);
-//                    progressThread.start();
-
                     playController.execute(currentChooseState.getTrack(), currentGuessState.getGuesses());
 
                 }
@@ -278,33 +273,4 @@ public class GameView extends JPanel implements PropertyChangeListener {
         }
     }
 
-
-    public static void main(String[] args) {
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                // Create and set up the window.
-                JFrame frame = new JFrame("Game View Test");
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-                // Create and set up the content pane.
-                ChooseViewModel chooseViewModel = new ChooseViewModel();
-                LeaderboardViewModel leaderboardViewModel = new LeaderboardViewModel();
-                GuessViewModel guessViewModel = new GuessViewModel();
-                SearchBarViewModel searchBarViewModel = new SearchBarViewModel();
-                PlayViewModel playViewModel = new PlayViewModel();
-                ViewManagerModel viewManagerModel = new ViewManagerModel();
-
-                GameView newContentPane = GameUseCaseFactory.create(searchBarViewModel, guessViewModel, leaderboardViewModel, chooseViewModel, playViewModel, viewManagerModel);
-                newContentPane.setOpaque(true); //content panes must be opaque
-                frame.setContentPane(newContentPane);
-
-                // Display the window.
-                frame.pack();
-                frame.setVisible(true);
-            }
-        });
-    }
-
 }
-
-
