@@ -1,3 +1,5 @@
+package entity;
+
 import entity.Track;
 import entity.TrackFactory;
 import org.junit.Test;
