@@ -6,7 +6,6 @@ public class Track {
     private String artist;
     private String title;
     private String spotifyID;
-    private String audioLink;
     private String audioFile;
 
 
@@ -34,8 +33,6 @@ public class Track {
     }
 
     public String getAudioFile() { return audioFile;}
-
-    public void setAudioFile(String audioFile) { this.audioFile = audioFile;}
 
     @Override
     public String toString() {

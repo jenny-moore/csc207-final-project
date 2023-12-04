@@ -1,4 +1,4 @@
-package guess;
+package Guess;
 
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,10 +26,14 @@ public class GuessnteractorTest {
         assertArrayEquals(dataAccess.getGames(), new String[]{"4"});
 
         guessInputData = new GuessInputData("song", "other song", 2, 6);
+        guessInteractor.execute(guessInputData);
         assertFalse(presenter.gameEnded());
+        assertEquals(presenter.data().getGuesses(), 3);
+        assertEquals(presenter.data().getSong(), "song");
         assertArrayEquals(dataAccess.getGames(), new String[]{"4"});
 
         guessInputData = new GuessInputData("song", "other song", 6, 6);
+        guessInteractor.execute(guessInputData);
         assertTrue(presenter.gameEnded());
         assertArrayEquals(dataAccess.getGames(), new String[]{"4", "0"});
     }

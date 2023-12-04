@@ -15,7 +15,7 @@ public class PlayerDataAccess implements GuessDataAccessInterface, LeaderboardDa
         this.scores = scores;
         this.fname = fname;
         ArrayList<String> data = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader("PlayerData.csv"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(fname))) {
             reader.readLine();
 
             String row;
@@ -31,7 +31,7 @@ public class PlayerDataAccess implements GuessDataAccessInterface, LeaderboardDa
         playerData.addGame(guesses, scores[guesses]);
         BufferedWriter writer;
         try {
-            writer = new BufferedWriter(new FileWriter("PlayerData.csv"));
+            writer = new BufferedWriter(new FileWriter(fname));
 
             writer.write(String.valueOf(playerData.getScore()));
             writer.newLine();
