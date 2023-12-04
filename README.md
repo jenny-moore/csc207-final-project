@@ -14,5 +14,13 @@ We are building a web-based application inspired by the likes of 'Wordle' but fo
 
 ### Link to API Documentation: https://developer.spotify.com/documentation/web-api
 
+## How to run the application
+1. https://developer.spotify.com/dashboard, Go onto the website and create an account and click on the create app button
+2. Then you can input anything you would like in the fields below
+3. Once you created the app then you will need to access the client id and secret from your app.
+4. Then you can put these details into the environmental variables in the runtime configuration
+5. Then you can run app/main and the app will start working. 
+
+
 ## How to fix Maven issues.
 - Right click on pom.xml and create as maven project or hover over maven and reload project

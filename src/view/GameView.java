@@ -1,12 +1,16 @@
 package view;
 
+import app.GameUseCaseFactory;
 import entity.Track;
 import interface_adapter.PlaySong.PlayController;
+import interface_adapter.PlaySong.PlayViewModel;
+import interface_adapter.ViewManagerModel;
 import interface_adapter.choose_genre.ChooseState;
 import interface_adapter.choose_genre.ChooseViewModel;
 import interface_adapter.guess.GuessController;
 import interface_adapter.guess.GuessState;
 import interface_adapter.guess.GuessViewModel;
+import interface_adapter.leaderboard.LeaderboardViewModel;
 import interface_adapter.search_bar.SearchBarController;
 import interface_adapter.search_bar.SearchBarState;
 import interface_adapter.search_bar.SearchBarViewModel;
@@ -57,6 +61,7 @@ public class GameView extends JPanel implements PropertyChangeListener {
         Font font = new Font("SansSerif", Font.PLAIN, 16); // Choose the desired font and size
         this.setFont(font);
 
+        /* Setup for SEARCH PANEL */
         JPanel searchPanel = new JPanel(new BorderLayout());
         searchPanel.setBackground(Color.BLACK); // Set the background color to match the frame
 
@@ -67,15 +72,15 @@ public class GameView extends JPanel implements PropertyChangeListener {
         searchTextField = new JTextField();
         searchTextField.setForeground(Color.WHITE);
         searchTextField.setBackground(Color.BLACK);
-        Font searchTextFont = new Font("SansSerif", Font.PLAIN, 18); // Choose the desired font and size
+        Font searchTextFont = new Font("Sans Serif", Font.PLAIN, 18); // Choose the desired font and size
         searchTextField.setFont(searchTextFont);
         searchTextField.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 2));
+        searchTextField.setPreferredSize(new Dimension(this.getWidth(), 30)); // Adjust the height as needed
 
         searchPanel.add(searchTextField, BorderLayout.CENTER);
         this.add(searchPanel, BorderLayout.NORTH);
-        // this.add(searchTextField, BorderLayout.NORTH);
 
-        // Setup for centerPanel
+        /* Setup for CENTER PANEL */
         centerPanel = new JPanel();
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
         centerPanel.setBackground(Color.BLACK);
@@ -109,7 +114,6 @@ public class GameView extends JPanel implements PropertyChangeListener {
 
             // Initialize each label and add it to the corresponding panel
             guessLabels[i] = new JLabel("");
-            // TODO: Set font and size (resultFont should be sufficient?)
             guessLabels[i].setForeground(Color.BLACK);
             guessRectangles[i].add(guessLabels[i]);
         }
@@ -121,11 +125,6 @@ public class GameView extends JPanel implements PropertyChangeListener {
         Dimension maxSize = new Dimension(Short.MAX_VALUE, 150); // Maximum size
         centerPanel.add(new Box.Filler(minSize, prefSize, maxSize));
 
-        // TODO: Include progress bar (or at least something to track progression of song / number of guesses)
-        JProgressBar progressBar = new JProgressBar(0, 1);
-        progressBar.setForeground(Color.GREEN);
-        centerPanel.add(progressBar);
-
         playButton = new JButton("Play");
         skipButton = new JButton("Skip");
         submitButton = new JButton("Submit");
@@ -136,7 +135,6 @@ public class GameView extends JPanel implements PropertyChangeListener {
         buttonPanel.add(submitButton);
         buttonPanel.setBackground(Color.BLACK);
         this.add(buttonPanel, BorderLayout.SOUTH);
-
 
         searchTextField.addKeyListener(
                 new KeyListener() {
@@ -167,29 +165,34 @@ public class GameView extends JPanel implements PropertyChangeListener {
             public void mouseClicked(MouseEvent evt) {
                 String selectedTrack = resultList.getSelectedValue();
                 searchTextField.setText(selectedTrack);
-                // Play track here
             }
         });
 
         skipButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 GuessState currentState = guessViewModel.getState();
-                skipController.execute(currentState.getCurrentSong().getTitle(), currentState.getGuesses(), currentState.getMaxGuesses());                // make sure to update guess label
+                int currentGuessIndex = currentState.getGuesses() - 1;
+
+                // Update guess label to "Skipped"
+                if (currentGuessIndex >= 0 && currentGuessIndex < guessLabels.length) {
+                    guessLabels[currentGuessIndex].setText("Skipped");
+                    guessLabels[currentGuessIndex].setForeground(Color.GRAY);
+
+                    guessLabels[currentGuessIndex].revalidate();
+                    guessLabels[currentGuessIndex].repaint();
+                }
+
+                skipController.execute(currentState.getCurrentSong().getTitle(), currentState.getGuesses(), currentState.getMaxGuesses());
             }
         });
 
         playButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 GuessState currentGuessState = guessViewModel.getState();
-                // make sure to update guess label
+                // Update guess label
 
-                if(currentGuessState.getGuesses()<6){
+                if (currentGuessState.getGuesses() < 6) {
                     ChooseState currentChooseState = chooseViewModel.getState();
-                    progressBar.setMinimum(0);
-                    progressBar.setMaximum(currentGuessState.getGuesses()*300);
-                    Thread progressThread = new ProgressThread(progressBar);
-                    progressThread.start();
-
                     playController.execute(currentChooseState.getTrack(), currentGuessState.getGuesses());
 
                 }
@@ -200,14 +203,19 @@ public class GameView extends JPanel implements PropertyChangeListener {
         submitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 GuessState currentState = guessViewModel.getState();
-                String guess = (String)resultList.getSelectedValue();
+
+                String guess = resultList.getSelectedValue();
                 currentState.setGuess(guess);
-                int i = currentState.getGuesses()-1;
-                guessLabels[i] = new JLabel(guess);
-                guessLabels[i].setFont(resultFont);
-                guessLabels[i].setForeground(Color.BLACK);
+                int currentGuessIndex = currentState.getGuesses() - 1;
+                if (currentGuessIndex >= 0 && currentGuessIndex < guessLabels.length) {
+                    guessLabels[currentGuessIndex].setText("❌ " + guess.toString());
+                    guessLabels[currentGuessIndex].setForeground(Color.RED);
+
+                    guessLabels[currentGuessIndex].revalidate();
+                    guessLabels[currentGuessIndex].repaint();
+                }
                 Track song = currentState.getCurrentSong();
-                guessController.execute(song.getArtist() + " - " + song.getTitle(), guess, currentState.getGuesses(), currentState.getMaxGuesses());
+                guessController.execute(song.toString(), guess, currentState.getGuesses(), currentState.getMaxGuesses());
             }
         });
 
@@ -224,7 +232,6 @@ public class GameView extends JPanel implements PropertyChangeListener {
         // call search controller with the query
         searchBarController.execute(query);
 
-        // searchBarViewModel.getState().setCurrentSearchQuery(query);
         // Trigger search in ViewModel
         List<Track> tracks = searchBarViewModel.getState().getTracks();
         updateSearchResults(tracks); // Update Jlist Model
@@ -241,6 +248,21 @@ public class GameView extends JPanel implements PropertyChangeListener {
         resultList.setModel(model);
     }
 
+    /* Reset the game once play again is selected from end view */
+    public void resetGame() {
+        resetGuessLabels();
+        resetSearchBar();
+    }
+    public void resetGuessLabels() {
+        for (JLabel label : guessLabels) {
+            label.setText("");
+        }
+    }
+
+    public void resetSearchBar() {
+        searchTextField.setText("");
+        resultList.setModel(new DefaultListModel<>());
+    }
 
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getNewValue() instanceof SearchBarState) {
@@ -250,26 +272,4 @@ public class GameView extends JPanel implements PropertyChangeListener {
         }
     }
 
-
-}
-class ProgressThread extends Thread{
-    private JProgressBar progressBar;
-    public ProgressThread(JProgressBar progressBar){
-        this.progressBar = progressBar;
-    }
-    public void run(){
-        try{
-            int j = 0;
-            while (j <= progressBar.getMaximum()) {
-                j += 10;
-                // fill the menu bar
-                progressBar.setValue(j);
-                Thread.sleep(100);
-            }
-            progressBar.setValue(0);
-
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }
