@@ -12,15 +12,14 @@ public class GuessnteractorTest {
     private GuessInteractor guessInteractor;
     private MockPlayerDataAccess dataAccess;
     private MockGuessPresenter presenter;
-    @BeforeEach
-    public void init(){
+
+    @Test
+    public void execute() {
         this.dataAccess = new MockPlayerDataAccess();
         this.presenter = new MockGuessPresenter();
         this.guessInteractor = new GuessInteractor(dataAccess, presenter);
         this.guessInputData = new GuessInputData("song", "song", 4, 6);
-    }
-    @Test
-    public void execute() {
+
         guessInteractor.execute(guessInputData);
         assertTrue(presenter.gameEnded());
         assertArrayEquals(dataAccess.getGames(), new String[]{"4"});
