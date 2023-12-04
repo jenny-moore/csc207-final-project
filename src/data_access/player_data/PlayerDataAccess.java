@@ -8,7 +8,6 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class PlayerDataAccess implements GuessDataAccessInterface, LeaderboardDataAccessInterface {
-    final private String[] data;
     final private int[] scores;
     final private PlayerData playerData = new PlayerData();
     final private String fname;
@@ -16,30 +15,27 @@ public class PlayerDataAccess implements GuessDataAccessInterface, LeaderboardDa
         this.scores = scores;
         this.fname = fname;
         ArrayList<String> data = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(fname))) {
-            data.add(reader.readLine());
+        try (BufferedReader reader = new BufferedReader(new FileReader("PlayerData.csv"))) {
+            reader.readLine();
 
             String row;
             while ((row = reader.readLine()) != null) {
-                data.add(row);
+                int guesses = Integer.parseInt(row);
+                playerData.addGame(guesses, scores[guesses]);
             }
-            data.add("");
-            this.data = data.toArray(new String[data.size()]);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
     public void saveGame(int guesses){
-        this.data[data.length - 1] = String.valueOf(guesses);
-        int totalScore = Integer.parseInt(data[0]);
-        totalScore += scores[guesses];
-        this.data[0] = String.valueOf(totalScore);
+        playerData.addGame(guesses, scores[guesses]);
         BufferedWriter writer;
         try {
-            writer = new BufferedWriter(new FileWriter(fname));
+            writer = new BufferedWriter(new FileWriter("PlayerData.csv"));
 
-            for (String item : data) {
-                writer.write(item);
+            writer.write(String.valueOf(playerData.getScore()));
+            for (int item : playerData.getGames()) {
+                writer.write(String.valueOf(item));
                 writer.newLine();
             }
             writer.close();

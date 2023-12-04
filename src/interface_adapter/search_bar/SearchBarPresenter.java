@@ -19,7 +19,7 @@ public class SearchBarPresenter implements SearchBarOutputBoundary {
     public void presentSuccessView(SearchBarOutputData data) {
         List<Track> searchResults = data.getTracks();
         if (!searchResults.isEmpty()) {
-            System.out.println("Search results: " + searchResults);
+            //System.out.println("Search results: " + searchResults);
             SearchBarState state = searchBarViewModel.getState();
             state.setTracks(searchResults);
             searchBarViewModel.firePropertyChanged();

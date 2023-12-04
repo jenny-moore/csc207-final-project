@@ -86,12 +86,12 @@ public class SpotifyPlaylistDataAccessObject implements ChooseDataAccessInterfac
 
                     // Access artist details
                     JSONArray artistsArray = item.getJSONObject("track").getJSONArray("artists");
-                    artistName = new StringBuilder(artistsArray.getJSONObject(0).getString("name"));
-                    for (int j = 1; j < artistsArray.length(); j++) {
-                        String newName = artistsArray.getJSONObject(j).getString("name");
-                        artistName.append(", ").append(newName);
-                    }
-                    tracks.add(trackFactory.create(artistName.toString(), trackName, spotifyId, songDataAccessObject.getSongFile(trackName)));
+//                    artistName = new StringBuilder(artistsArray.getJSONObject(0).getString("name"));
+//                    for (int j = 1; j < artistsArray.length(); j++) {
+//                        String newName = artistsArray.getJSONObject(j).getString("name");
+//                        artistName.append(", ").append(newName);
+//                    }
+                    tracks.add(trackFactory.create(artistsArray.getJSONObject(0).getString("name"), trackName, spotifyId, songDataAccessObject.getSongFile(trackName)));
                 }
                 game.addPlaylist(genre, tracks.toArray(new Track[tracks.size()]));
             } else {
