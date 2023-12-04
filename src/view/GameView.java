@@ -122,9 +122,9 @@ public class GameView extends JPanel implements PropertyChangeListener {
         centerPanel.add(new Box.Filler(minSize, prefSize, maxSize));
 
         // TODO: Include progress bar (or at least something to track progression of song / number of guesses)
-        JProgressBar progressBar = new JProgressBar(0, 1);
-        progressBar.setForeground(Color.GREEN);
-        centerPanel.add(progressBar);
+//        JProgressBar progressBar = new JProgressBar(0, 1);
+//        progressBar.setForeground(Color.GREEN);
+//        centerPanel.add(progressBar);
 
         playButton = new JButton("Play");
         skipButton = new JButton("Skip");
@@ -185,11 +185,11 @@ public class GameView extends JPanel implements PropertyChangeListener {
 
                 if(currentGuessState.getGuesses()<6){
                     ChooseState currentChooseState = chooseViewModel.getState();
-                    System.out.println(currentChooseState.getTrack().getTitle());
-                    progressBar.setMinimum(0);
-                    progressBar.setMaximum(currentGuessState.getGuesses()*300);
-                    Thread progressThread = new ProgressThread(progressBar);
-                    progressThread.start();
+//                    System.out.println(currentChooseState.getTrack().getTitle());
+//                    progressBar.setMinimum(0);
+//                    progressBar.setMaximum(currentGuessState.getGuesses()*300);
+//                    Thread progressThread = new ProgressThread(progressBar);
+//                    progressThread.start();
 
                     playController.execute(currentChooseState.getTrack(), currentGuessState.getGuesses());
 
@@ -253,6 +253,7 @@ public class GameView extends JPanel implements PropertyChangeListener {
 
 
 }
+/*
 class ProgressThread extends Thread{
     private JProgressBar progressBar;
     public ProgressThread(JProgressBar progressBar){
@@ -274,3 +275,5 @@ class ProgressThread extends Thread{
         }
     }
 }
+
+ */
