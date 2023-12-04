@@ -12,10 +12,7 @@ public class SongDataAccessObject {
             String row;
             while ((row = reader.readLine()) != null) {
                 String[] curSong = row.split(",");
-                System.out.println("getsongfile " + curSong[0]);
-                System.out.println("getsongfile " + title);
                 if (curSong[0].equals(title)){
-                    System.out.println(curSong[1]);
                     return "./Songs/" + curSong[1].strip();
                 }
             }

@@ -185,7 +185,6 @@ public class GameView extends JPanel implements PropertyChangeListener {
 
                 if(currentGuessState.getGuesses()<6){
                     ChooseState currentChooseState = chooseViewModel.getState();
-                    //System.out.println(currentChooseState.getTrack().getTitle());
                     progressBar.setMinimum(0);
                     progressBar.setMaximum(currentGuessState.getGuesses()*300);
                     Thread progressThread = new ProgressThread(progressBar);
@@ -202,14 +201,12 @@ public class GameView extends JPanel implements PropertyChangeListener {
             public void actionPerformed(ActionEvent e) {
                 GuessState currentState = guessViewModel.getState();
                 String guess = (String)resultList.getSelectedValue();
-                System.out.println(guess);
                 currentState.setGuess(guess);
                 int i = currentState.getGuesses()-1;
                 guessLabels[i] = new JLabel(guess);
                 guessLabels[i].setFont(resultFont);
                 guessLabels[i].setForeground(Color.BLACK);
                 Track song = currentState.getCurrentSong();
-                System.out.println(song.getArtist() + " - " + song.getTitle());
                 guessController.execute(song.getArtist() + " - " + song.getTitle(), guess, currentState.getGuesses(), currentState.getMaxGuesses());
             }
         });

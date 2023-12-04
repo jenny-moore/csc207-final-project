@@ -5,7 +5,6 @@ import entity.Game;
 import entity.Track;
 
 public class ChooseInteractor implements ChooseInputBoundary{
-    final Game game = new Game();
     final ChooseOutputBoundary genrePresenter;
     final ChooseDataAccessInterface genreDataAccessObject;
     final GameDataAccess gameDataAccess;
@@ -19,11 +18,11 @@ public class ChooseInteractor implements ChooseInputBoundary{
     public void execute(ChooseInputData chooseGenreInputData){
         ChooseOutputData outputData = new ChooseOutputData(chooseGenreInputData.getGenre());
         String genre = chooseGenreInputData.getGenre();
-        if (!game.genreInGame(genre)){
-            genreDataAccessObject.chooseGenre(genre, game);
+        if (!gameDataAccess.getCurgame().genreInGame(genre)){
+            genreDataAccessObject.chooseGenre(genre, gameDataAccess.getCurgame());
         }
         try{
-            Track track = game.generateTrack(genre);
+            Track track = gameDataAccess.getCurgame().generateTrack(genre);
             outputData.addTrack(track);
             gameDataAccess.getCurgame().setCurTrack(track);
         } catch (Exception e) {

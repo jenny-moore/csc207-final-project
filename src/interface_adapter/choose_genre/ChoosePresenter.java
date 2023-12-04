@@ -34,12 +34,7 @@ public class ChoosePresenter implements ChooseOutputBoundary {
 
 
         this.viewManagerModel.setActiveView(searchBarViewModel.getViewName());
-        System.out.println("In choosepresenter, active view: " + searchBarViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
     }
 
-    @Override
-    public void prepareFailView(String s) {
-
-    }
 }
