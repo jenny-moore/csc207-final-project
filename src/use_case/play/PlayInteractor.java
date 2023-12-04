@@ -48,7 +48,6 @@ public class PlayInteractor implements PlayInputBoundary{
 
         try{
             String audioFilePath = playInputData.getTrack().getAudioFile();
-            System.out.println(audioFilePath);
 
             FileInputStream fis = new FileInputStream(audioFilePath);
 
@@ -58,7 +57,6 @@ public class PlayInteractor implements PlayInputBoundary{
             player.setPlayBackListener(new PlaybackListener() {
                 @Override
                 public void playbackFinished(PlaybackEvent evt) {
-                    System.out.println("Playback done");
                 }
             });
 
@@ -135,7 +133,6 @@ class PlayerThread extends Thread{
     public void run(){
         try{
             Thread.sleep(100);
-            System.out.println("is the play");
             player.play(700, Integer.MAX_VALUE);
         } catch (JavaLayerException | InterruptedException e) {
             throw new RuntimeException(e);

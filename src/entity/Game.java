@@ -42,6 +42,11 @@ public class Game {
         }
         return genres;
     }
+
+    public HashMap<String, Track[]> getSongCatalog() {
+        return songCatalog;
+    }
+
     public void addPlaylist(String genre, Track[] playlist){
         songCatalog.put(genre, playlist);
     }

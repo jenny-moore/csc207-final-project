@@ -203,9 +203,9 @@ public class GameView extends JPanel implements PropertyChangeListener {
         submitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 GuessState currentState = guessViewModel.getState();
+
                 String guess = resultList.getSelectedValue();
                 currentState.setGuess(guess);
-                System.out.println("guess: " + guess);
                 int currentGuessIndex = currentState.getGuesses() - 1;
                 if (currentGuessIndex >= 0 && currentGuessIndex < guessLabels.length) {
                     guessLabels[currentGuessIndex].setText("❌ " + guess.toString());
@@ -215,7 +215,6 @@ public class GameView extends JPanel implements PropertyChangeListener {
                     guessLabels[currentGuessIndex].repaint();
                 }
                 Track song = currentState.getCurrentSong();
-                System.out.println("correct answer: " + song.toString());
                 guessController.execute(song.toString(), guess, currentState.getGuesses(), currentState.getMaxGuesses());
             }
         });

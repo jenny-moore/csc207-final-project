@@ -23,7 +23,6 @@ public class GuessPresenter implements GuessOutputBoundary {
         guessViewModel.firePropertyChanged();
 
         viewManagerModel.setActiveView(leaderbordViewModel.getViewName());
-        System.out.println("In guesspresenter, Active view: "+ leaderbordViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 
