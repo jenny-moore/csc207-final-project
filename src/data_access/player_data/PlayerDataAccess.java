@@ -34,6 +34,7 @@ public class PlayerDataAccess implements GuessDataAccessInterface, LeaderboardDa
             writer = new BufferedWriter(new FileWriter("PlayerData.csv"));
 
             writer.write(String.valueOf(playerData.getScore()));
+            writer.newLine();
             for (int item : playerData.getGames()) {
                 writer.write(String.valueOf(item));
                 writer.newLine();
